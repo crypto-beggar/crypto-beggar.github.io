@@ -36,26 +36,44 @@ h1, h2, p { margin-top: 0; }
 
 .falling-bill {
   position: absolute;
-  top: -80px;
-  background: #ffffff;
-  border: 1.5px solid var(--ink);
-  padding: 6px 12px;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--ink);
-  white-space: nowrap;
-  box-shadow: 3px 3px 0 var(--ink);
+  top: -95px;
+  width: 200px;
+  height: 85px;
+  background: #d6e9c6;
+  border: 1.5px solid #2a5e1a;
+  padding: 5px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0,0,0,.3), inset 0 0 0 3px rgba(42,94,26,.2);
+  font-family: Georgia, "Times New Roman", serif;
+  color: #1a3d0e;
   opacity: 0;
   pointer-events: none;
   animation: fallAnimation linear infinite;
 }
-
-.falling-bill .bill-amount {
-  color: var(--red);
-  font-weight: 700;
-  margin-right: 6px;
+.bill-top,
+.bill-bot  { display: flex; justify-content: space-between; align-items: center; }
+.bill-denom   { font-size: 11px; font-weight: 900; letter-spacing: .01em; }
+.bill-title   { font-size: 5.5px; letter-spacing: .07em; text-transform: uppercase; opacity: .75; }
+.bill-mid     { display: flex; align-items: center; gap: 7px; padding: 0 2px; }
+.bill-portrait {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #2a5e1a;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 900;
+  background: rgba(42,94,26,.1);
+  flex-shrink: 0;
 }
+.bill-text    { display: flex; flex-direction: column; }
+.bill-value   { font-size: 10px; font-weight: 900; letter-spacing: .03em; line-height: 1; }
+.bill-sub     { font-size: 5.5px; text-transform: uppercase; letter-spacing: .07em; opacity: .7; margin-top: 2px; }
+.bill-serial  { font: 5.5px var(--mono); letter-spacing: .05em; opacity: .7; }
+.bill-mandate { font-size: 5px; text-transform: uppercase; letter-spacing: .04em; opacity: .6; }
 
 @keyframes fallAnimation {
   0%   { transform: translateY(0)     rotate(var(--rot-start, -10deg)); opacity: 0;    }
@@ -429,7 +447,7 @@ h1 {
   align-items: flex-start;
   background: var(--paper);
 }
-.chain-featured { background: var(--red); }
+.chain-featured { background: #1c4a28; }
 .chain-meta {
   width: 100%;
   display: flex;
@@ -447,10 +465,11 @@ h1 {
 }
 .chain-status                       { color: var(--muted); font: 9px var(--mono); text-transform: uppercase; }
 .chain-status-live                  { color: #0a4f21; font-weight: 700; }
-.chain-featured .chain-status-live  { color: var(--ink); }
+.chain-featured .chain-status-live  { color: var(--acid); }
 .chain-card h3 { font-size: 24px; letter-spacing: -.05em; margin: 22px 0 6px; }
 .chain-card p  { min-height: 34px; color: var(--muted); font-size: 12px; line-height: 1.4; margin-bottom: 12px; }
-.chain-featured p    { color: rgba(23, 23, 23, 0.72); }
+.chain-featured h3   { color: var(--paper); }
+.chain-featured p    { color: rgba(242, 239, 232, 0.62); }
 .chain-card code {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -459,7 +478,7 @@ h1 {
   color: var(--muted);
   font: 10px var(--mono);
 }
-.chain-featured code { color: var(--ink); }
+.chain-featured code { color: rgba(242, 239, 232, 0.5); }
 
 .chain-actions {
   width: 100%;
@@ -502,8 +521,8 @@ h1 {
   transition: opacity .15s;
 }
 .chain-qr:hover { opacity: .78; }
-.chain-featured .chain-qr { background: var(--paper); color: var(--ink); border-color: var(--paper); }
-.chain-featured .chain-qr:hover { opacity: .82; }
+.chain-featured .chain-qr { background: var(--acid); color: var(--ink); border-color: var(--acid); }
+.chain-featured .chain-qr:hover { opacity: .85; }
 
 .chain-link {
   font: 9px var(--mono);
@@ -514,7 +533,9 @@ h1 {
   white-space: nowrap;
   margin-left: auto;
 }
-.chain-featured .chain-link { color: var(--ink); border-color: var(--ink); }
+.chain-featured .chain-copy:not(:disabled) { color: var(--paper); border-color: rgba(242,239,232,.55); }
+.chain-featured .chain-link { color: rgba(242,239,232,.62); border-color: rgba(242,239,232,.4); }
+.chain-featured .chain-link:hover { color: var(--paper); border-color: var(--paper); opacity: 1; }
 .chain-link:hover { opacity: .7; }
 
 .dark-section { color: var(--paper); background: var(--dark); position: relative; z-index: 1; }

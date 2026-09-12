@@ -42,16 +42,15 @@ function initTickerLoop() {
   Array.from(track.children).forEach(child => track.appendChild(child.cloneNode(true)));
 }
 
-const RAIN_SNIPPETS = [
-  { amount: '$0.00',     text: 'NO UTILITY'       },
-  { amount: '1 WEI',    text: 'SPARE GAS'         },
-  { amount: '$0.00',    text: 'ZERO ROI'          },
-  { amount: '0.001 ETH',text: 'GOD BLESS YOU'    },
-  { amount: '1 SAT',    text: 'JUST ASKING'       },
-  { amount: '$0.00',    text: 'PROOF OF PITY'     },
-  { amount: '0x7b78',   text: 'HONEST LOSS'       },
-  { amount: 'DUST',     text: 'DIGITAL CARDBOARD' },
-  { amount: '0 WEI',    text: 'STILL BROKE'       }
+const RAIN_DENOMINATIONS = [
+  { value: '$0',     text: 'ONE WEI',      sub: 'BACKED BY NOTHING'      },
+  { value: '0 WEI',  text: 'ZERO ETH',     sub: 'ZERO LEGAL TENDER'      },
+  { value: '1 SAT',  text: 'DIGITAL DUST', sub: 'PROOF OF PITY'          },
+  { value: '$0.00',  text: 'NO UTILITY',   sub: 'NOT FINANCIAL ADVICE'   },
+  { value: 'DUST',   text: 'ONE LOSS',     sub: 'DOWN ONLY FOREVER'      },
+  { value: '0x0',    text: 'NULL VALUE',   sub: 'UNAUDITED UNINSURED'    },
+  { value: '1 WEI',  text: 'SPARE GAS',   sub: 'GOD BLESS YOU'          },
+  { value: '$0.00',  text: 'STILL BROKE', sub: 'HONEST DISAPPOINTMENT'  }
 ];
 
 function initMoneyRain() {
@@ -61,13 +60,30 @@ function initMoneyRain() {
   for (let i = 0; i < 22; i++) {
     const bill     = document.createElement('div');
     bill.className = 'falling-bill';
-    const snippet  = RAIN_SNIPPETS[i % RAIN_SNIPPETS.length];
-    bill.innerHTML = `<span class="bill-amount">${snippet.amount}</span><span>${snippet.text}</span>`;
-    const leftPos  = Math.random() * 92;
+    const d        = RAIN_DENOMINATIONS[i % RAIN_DENOMINATIONS.length];
+    const serial   = `${Math.random().toString(16).slice(2,6).toUpperCase()}${Math.random().toString(16).slice(2,6).toUpperCase()} · BEGGAR · ${new Date().getFullYear()}`;
+    bill.innerHTML = `
+      <div class="bill-top">
+        <span class="bill-denom">${d.value}</span>
+        <span class="bill-title">BEGGAR FEDERAL RESERVE NOTE</span>
+        <span class="bill-denom">${d.value}</span>
+      </div>
+      <div class="bill-mid">
+        <div class="bill-portrait">B</div>
+        <div class="bill-text">
+          <span class="bill-value">${d.text}</span>
+          <span class="bill-sub">${d.sub}</span>
+        </div>
+      </div>
+      <div class="bill-bot">
+        <span class="bill-serial">${serial}</span>
+        <span class="bill-mandate">NOT A SECURITY</span>
+      </div>`;
+    const leftPos  = Math.random() * 88;
     const duration = 10 + Math.random() * 12;
     const delay    = Math.random() * 20;
-    const rotStart = (Math.random() * 26 - 13).toFixed(1) + 'deg';
-    const rotEnd   = (Math.random() * 36 - 18).toFixed(1) + 'deg';
+    const rotStart = (Math.random() * 22 - 11).toFixed(1) + 'deg';
+    const rotEnd   = (Math.random() * 30 - 15).toFixed(1) + 'deg';
     bill.style.left              = `${leftPos}vw`;
     bill.style.animationDuration = `${duration}s`;
     bill.style.animationDelay   = `-${delay}s`;
