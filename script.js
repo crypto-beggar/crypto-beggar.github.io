@@ -5,6 +5,57 @@ const BTC_ADDRESS  = 'bc1qkzlk3xwa6lxsakg0l028yl0aca76y0vl7a5jts';
 const SOL_ADDRESS  = 'B9TRxqnagb6SoiLeJyr4XpvjjnKtZiUrFdZnDv8ycWzK';
 const TRON_ADDRESS = 'TAVKuTfRhQafeLKS79x1jjGQBGrgwNtUz9';
 const BASE_RPC     = 'https://mainnet.base.org';
+const ETH_RPC      = 'https://ethereum-rpc.publicnode.com';
+const SOL_RPC      = 'https://api.mainnet-beta.solana.com';
+
+const TIERS = [
+  { id: 1, name: 'The Crushed Paper Cup',      min: 0,    max: 50   },
+  { id: 2, name: 'The Soggy Cardboard Box',    min: 50,   max: 250  },
+  { id: 3, name: 'The Rusty Metal Bucket',     min: 250,  max: 1000 },
+  { id: 4, name: 'The Industrial Wheelbarrow', min: 1000, max: 5000 },
+  { id: 5, name: 'The Offshore Vault',         min: 5000, max: Infinity }
+];
+
+const TIER_COUNTDOWN_COPY = [
+  '',
+  (rem) => `$${rem} more and the cup becomes a box. Progress.`,
+  (rem) => `$${rem} until a rust bucket replaces the soggy cardboard.`,
+  (rem) => `$${rem} to upgrade to industrial-grade begging.`,
+  (rem) => `$${rem} to launder this into an offshore vault.`,
+  ()    => 'The vault is full. Congratulations, you are simply a beggar with a vault.'
+];
+
+const LEADERBOARD_TITLES = [
+  'CHIEF PHILANTHROPIST',
+  'ABSOLVED FOR MEMECOIN DUMPING',
+  'EXPENSIVE PITY',
+  'EXIT LIQUIDITY PROVIDER',
+  'VOLUNTARILY REKT'
+];
+
+const VACANT_COPY = [
+  '[VACANT — ARE YOU TOO BROKE TO CLAIM THIS?]',
+  '[AWAITING GUILTY WHALE]',
+  '[EMPTY — RETAIL WAILS DETECTED]',
+  '[SLOT RESERVED FOR SOMEONE ASHAMED]',
+  '[PROBABLY YOU, READING THIS RIGHT NOW]'
+];
+
+const BLOCKSCOUT_CHAINS = [
+  { name: 'Base',     base: 'https://base.blockscout.com'     },
+  { name: 'ETH',      base: 'https://eth.blockscout.com'      },
+  { name: 'Arbitrum', base: 'https://arbitrum.blockscout.com' },
+  { name: 'Optimism', base: 'https://optimism.blockscout.com' },
+  { name: 'Polygon',  base: 'https://polygon.blockscout.com'  }
+];
+
+let cachedPrices      = { eth: 0, btc: 0, sol: 0, trx: 0 };
+let cachedTotalUSD    = 0;
+let currentTierIndex  = 0;
+let prevFillPct       = 0;
+let celebrationActive = false;
+
+const savedTier = (() => { try { return parseInt(localStorage.getItem('beggar-tier') || '1', 10); } catch { return 1; } })();
 
 const SLOGANS = [
   { line1: 'SKIP THE RUG PULL.',       line2: 'JUST SEND IT.',      sub: "At least I won't pretend I have a roadmap." },
@@ -91,6 +142,313 @@ function initMoneyRain() {
     bill.style.setProperty('--rot-end',   rotEnd);
     container.appendChild(bill);
   }
+}
+
+async function fetchPrices() {
+  try {
+    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,bitcoin,solana,tron&vs_currencies=usd');
+    const d = await r.json();
+    cachedPrices.eth = d?.ethereum?.usd || 0;
+    cachedPrices.btc = d?.bitcoin?.usd  || 0;
+    cachedPrices.sol = d?.solana?.usd   || 0;
+    cachedPrices.trx = d?.tron?.usd     || 0;
+  } catch (e) {
+    console.warn('[BEGGAR] Price fetch failed:', e);
+  }
+}
+
+async function rpcGetBalance(rpcUrl, address) {
+  try {
+    const r = await fetch(rpcUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'eth_getBalance', params: [address, 'latest'], id: 1 })
+    });
+    const { result } = await r.json();
+    return BigInt(result);
+  } catch { return 0n; }
+}
+
+async function fetchBtcBalance() {
+  try {
+    const r = await fetch(`https://blockstream.info/api/address/${BTC_ADDRESS}`);
+    const d = await r.json();
+    const sats = BigInt((d?.chain_stats?.funded_txo_sum || 0) - (d?.chain_stats?.spent_txo_sum || 0));
+    return Number(sats) / 1e8;
+  } catch { return 0; }
+}
+
+async function fetchSolBalance() {
+  try {
+    const r = await fetch(SOL_RPC, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'getBalance', params: [SOL_ADDRESS], id: 1 })
+    });
+    const { result } = await r.json();
+    return (result?.value || 0) / 1e9;
+  } catch { return 0; }
+}
+
+async function fetchTronBalance() {
+  try {
+    const r = await fetch(`https://api.trongrid.io/v1/accounts/${TRON_ADDRESS}`);
+    const d = await r.json();
+    const sun = d?.data?.[0]?.balance || 0;
+    return sun / 1e6;
+  } catch { return 0; }
+}
+
+async function fetchAllBalancesUSD() {
+  const [baseWei, ethWei, btcBal, solBal, trxBal] = await Promise.all([
+    rpcGetBalance(BASE_RPC, EVM_ADDRESS),
+    rpcGetBalance(ETH_RPC,  EVM_ADDRESS),
+    fetchBtcBalance(),
+    fetchSolBalance(),
+    fetchTronBalance()
+  ]);
+
+  const divisor = 1_000_000_000_000_000_000n;
+  const baseEth = Number(baseWei) / 1e18;
+  const mainEth = Number(ethWei)  / 1e18;
+  const totalEth = baseEth + mainEth;
+
+  const usd =
+    totalEth * cachedPrices.eth +
+    btcBal   * cachedPrices.btc +
+    solBal   * cachedPrices.sol +
+    trxBal   * cachedPrices.trx;
+
+  const statBalEl    = document.getElementById('stat-balance');
+  const statWeiEl    = document.getElementById('stat-wei');
+  const statUpdateEl = document.getElementById('stat-last-update');
+  const timeStr = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+  if (statBalEl)    statBalEl.textContent    = `${baseEth.toFixed(6)} ETH`;
+  if (statWeiEl)    statWeiEl.textContent    = `${baseWei.toLocaleString('en-US')} WEI`;
+  if (statUpdateEl) statUpdateEl.textContent = timeStr;
+
+  return usd;
+}
+
+function getTier(usd) {
+  for (let i = TIERS.length - 1; i >= 0; i--) {
+    if (usd >= TIERS[i].min) return i;
+  }
+  return 0;
+}
+
+function setFillRect(tierIdx, pct) {
+  const rect = document.getElementById(`fill-rect-${tierIdx + 1}`);
+  if (!rect) return;
+  const y = 200 * (1 - pct);
+  const h = 200 * pct;
+  rect.setAttribute('y', y.toFixed(2));
+  rect.setAttribute('height', h.toFixed(2));
+}
+
+function showContainerSvg(tierIdx) {
+  for (let i = 0; i < TIERS.length; i++) {
+    const el = document.getElementById(`tier-svg-${i + 1}`);
+    if (!el) continue;
+    el.classList.toggle('is-hidden', i !== tierIdx);
+  }
+}
+
+function triggerCelebration(fromTierIdx, toTierIdx) {
+  if (celebrationActive) return;
+  celebrationActive = true;
+
+  const svg = document.getElementById(`tier-svg-${fromTierIdx + 1}`);
+
+  if (svg) {
+    svg.classList.add('is-shaking');
+    svg.addEventListener('animationend', () => svg.classList.remove('is-shaking'), { once: true });
+  }
+
+  spawnConfetti();
+
+  setTimeout(() => {
+    const overlay = document.getElementById('celebration-overlay');
+    if (overlay) {
+      overlay.setAttribute('aria-hidden', 'false');
+      overlay.classList.add('is-active');
+    }
+  }, 400);
+
+  setTimeout(() => {
+    const overlay = document.getElementById('celebration-overlay');
+    if (overlay) {
+      overlay.classList.remove('is-active');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    currentTierIndex = toTierIdx;
+    showContainerSvg(toTierIdx);
+
+    const carryPct = toTierIdx < TIERS.length - 1
+      ? (cachedTotalUSD - TIERS[toTierIdx].min) / (TIERS[toTierIdx].max - TIERS[toTierIdx].min)
+      : 1;
+
+    setFillRect(toTierIdx, Math.max(0, Math.min(1, carryPct)));
+    renderTierUI(toTierIdx, cachedTotalUSD);
+
+    try { localStorage.setItem('beggar-tier', String(toTierIdx)); } catch {}
+    celebrationActive = false;
+  }, 2900);
+}
+
+function spawnConfetti() {
+  const stage = document.getElementById('container-stage');
+  if (!stage) return;
+  const rect = stage.getBoundingClientRect();
+  const cx   = rect.left + rect.width  / 2;
+  const cy   = rect.top  + rect.height / 2;
+
+  for (let i = 0; i < 36; i++) {
+    const el    = document.createElement('div');
+    el.className = 'confetti-particle';
+    el.textContent = '$0';
+    const angle  = (Math.random() * Math.PI * 2);
+    const dist   = 120 + Math.random() * 280;
+    const flyX   = (Math.cos(angle) * dist).toFixed(0) + 'px';
+    const flyY   = (Math.sin(angle) * dist - 60).toFixed(0) + 'px';
+    const flyR   = (Math.random() * 720 - 360).toFixed(0) + 'deg';
+    const flyDur = (0.8 + Math.random() * 0.8).toFixed(2) + 's';
+    el.style.left    = (cx - 45) + 'px';
+    el.style.top     = (cy - 19) + 'px';
+    el.style.setProperty('--fly-x', flyX);
+    el.style.setProperty('--fly-y', flyY);
+    el.style.setProperty('--fly-r', flyR);
+    el.style.setProperty('--fly-dur', flyDur);
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2000);
+  }
+}
+
+function renderTierUI(tierIdx, usd) {
+  const tier      = TIERS[tierIdx];
+  const badgeEl   = document.getElementById('tier-badge');
+  const nameEl    = document.getElementById('tier-name');
+  const fillEl    = document.getElementById('progress-fill');
+  const pctEl     = document.getElementById('progress-pct');
+  const trackEl   = document.getElementById('progress-track');
+  const copyEl    = document.getElementById('countdown-copy');
+  const jarUsdEl  = document.getElementById('jar-usd');
+
+  if (jarUsdEl) jarUsdEl.textContent = '$' + usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  const isLast = tier.max === Infinity;
+  const pct    = isLast ? 1 : Math.max(0, Math.min(1, (usd - tier.min) / (tier.max - tier.min)));
+  const pctStr = (pct * 100).toFixed(1) + '%';
+
+  if (badgeEl)  badgeEl.textContent  = `TIER ${tier.id}`;
+  if (nameEl)   nameEl.textContent   = tier.name;
+  if (fillEl)   fillEl.style.width   = pctStr;
+  if (pctEl)    pctEl.textContent    = pctStr;
+  if (trackEl) {
+    trackEl.setAttribute('aria-valuenow', (pct * 100).toFixed(0));
+  }
+
+  if (copyEl) {
+    if (isLast) {
+      copyEl.textContent = TIER_COUNTDOWN_COPY[5]();
+    } else {
+      const remaining = (tier.max - usd).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      copyEl.textContent = TIER_COUNTDOWN_COPY[tier.id](remaining);
+    }
+  }
+}
+
+async function updateTipJar() {
+  const usd = await fetchAllBalancesUSD();
+  cachedTotalUSD = usd;
+
+  const newTierIdx  = getTier(usd);
+  const currentTier = TIERS[currentTierIndex];
+  const isLast      = currentTier.max === Infinity;
+  const fillPct     = isLast ? 1 : Math.max(0, Math.min(1, (usd - currentTier.min) / (currentTier.max - currentTier.min)));
+
+  if (!celebrationActive) {
+    if (newTierIdx > currentTierIndex) {
+      setFillRect(currentTierIndex, 1);
+      renderTierUI(currentTierIndex, usd);
+      setTimeout(() => triggerCelebration(currentTierIndex, newTierIdx), 600);
+    } else {
+      setFillRect(currentTierIndex, fillPct);
+      renderTierUI(currentTierIndex, usd);
+    }
+    prevFillPct = fillPct;
+  }
+}
+
+async function fetchLeaderboard() {
+  const results = await Promise.allSettled(
+    BLOCKSCOUT_CHAINS.map(async ({ base }) => {
+      const url = `${base}/api/v2/addresses/${EVM_ADDRESS}/transactions?filter=to&limit=50`;
+      const r   = await fetch(url);
+      const d   = await r.json();
+      return (d.items || []).filter(tx => tx.status === 'ok' && BigInt(tx.value || '0') > 0n);
+    })
+  );
+
+  const donors = new Map();
+
+  results.forEach(result => {
+    if (result.status !== 'fulfilled') return;
+    result.value.forEach(tx => {
+      const from  = tx.from?.hash?.toLowerCase();
+      const value = BigInt(tx.value || '0');
+      if (!from) return;
+      donors.set(from, (donors.get(from) || 0n) + value);
+    });
+  });
+
+  const sorted = [...donors.entries()]
+    .sort((a, b) => (b[1] > a[1] ? 1 : -1))
+    .slice(0, 5);
+
+  renderLeaderboard(sorted);
+}
+
+function abbrev(addr) {
+  return addr.slice(0, 6) + '…' + addr.slice(-4);
+}
+
+function renderLeaderboard(sorted) {
+  const body = document.getElementById('leaderboard-body');
+  if (!body) return;
+
+  const rows = [];
+
+  for (let i = 0; i < 5; i++) {
+    const entry = sorted[i];
+    if (!entry) {
+      rows.push(`
+        <tr class="vacant-row">
+          <td class="rank-cell${i === 0 ? ' rank-1' : ''}">#${i + 1}</td>
+          <td colspan="3" class="vacant-slot">${VACANT_COPY[i]}</td>
+        </tr>`);
+    } else {
+      const [addr, weiTotal] = entry;
+      const eth  = Number(weiTotal) / 1e18;
+      const usd  = eth * cachedPrices.eth;
+      const ethStr = eth.toFixed(6) + ' ETH';
+      const usdStr = '$' + usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      rows.push(`
+        <tr>
+          <td class="rank-cell${i === 0 ? ' rank-1' : ''}">#${i + 1}</td>
+          <td class="donor-cell"><span class="donor-hex">${abbrev(addr)}</span></td>
+          <td class="total-cell">
+            <span class="total-eth">${ethStr}</span>
+            <span class="total-usd">${usdStr}</span>
+          </td>
+          <td><span class="status-badge badge-${i + 1}">${LEADERBOARD_TITLES[i]}</span></td>
+        </tr>`);
+    }
+  }
+
+  body.innerHTML = rows.join('');
 }
 
 async function fetchBaseBalance() {
@@ -260,11 +618,22 @@ function applyRainState(isOff) {
 
 rainToggleBtn?.addEventListener('click', () => applyRainState(!document.body.classList.contains('rain-off')));
 
-function init() {
+async function init() {
   initTickerLoop();
   initMoneyRain();
+
+  currentTierIndex = Math.min(savedTier, TIERS.length - 1);
+  showContainerSvg(currentTierIndex);
+
+  await fetchPrices();
+  await updateTipJar();
   fetchBaseBalance();
-  setInterval(fetchBaseBalance, 30_000);
+  fetchLeaderboard();
+
+  setInterval(updateTipJar, 5_000);
+  setInterval(fetchBaseBalance, 5_000);
+  setInterval(fetchPrices, 60_000);
+  setInterval(fetchLeaderboard, 120_000);
 }
 
 if (document.readyState === 'loading') {

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
 
@@ -17,6 +17,13 @@
   <button id="toggle-rain" class="rain-toggle" type="button" aria-label="Toggle money rain" title="Toggle money rain">
     <span class="rain-toggle-icon">💸</span><span class="rain-toggle-label">RAIN: ON</span>
   </button>
+
+  <div id="celebration-overlay" class="celebration-overlay" aria-live="assertive" aria-hidden="true">
+    <div class="celebration-inner">
+      <div class="celebration-title">CONTAINER FULL!</div>
+      <div class="celebration-sub">UPGRADED.</div>
+    </div>
+  </div>
 
   <dialog id="qr-modal" aria-modal="true" aria-labelledby="modal-chain-name">
     <div class="modal-inner">
@@ -55,6 +62,7 @@
   <header class="site-header">
     <a class="brand" href="#top" aria-label="BEGGAR home"><span class="brand-mark">$</span> BEGGAR</a>
     <nav class="nav" aria-label="Main navigation">
+      <a href="#jar">Tip Jar</a>
       <a href="#ledger">Ledger</a>
       <a href="#manifesto">Manifesto</a>
       <a href="#faq">FAQ</a>
@@ -80,11 +88,9 @@
       <div class="hero-card" aria-label="Current begging status">
         <div class="card-topline"><span>BEGGAR / STATUS</span><span>001</span></div>
         <div class="beggar-illustration" aria-hidden="true">
-          <div class="halo"></div>
-          <div class="figure-head"></div>
-          <div class="figure-body"></div>
-          <div class="hand hand-left">↗</div>
-          <div class="hand hand-right">↖</div>
+          <div class="beggar-portrait-wrap">
+            <img src="beggar-portrait.jpg" alt="BEGGAR" class="beggar-portrait">
+          </div>
         </div>
         <div class="card-message">"I have nothing<br>but this wallet."</div>
         <div class="card-bottomline"><span>LAST ASK: NOW</span><span class="mono">0x7b78...7E56</span></div>
@@ -132,6 +138,212 @@
       </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════
+         TIP JAR + WALL OF ABSOLUTION
+    ════════════════════════════════════════════════ -->
+    <section class="section-shell jar-wall-section" id="jar">
+      <div class="jar-wall-grid">
+
+        <!-- TIP JAR ──────────────────────────────── -->
+        <div class="tip-jar-panel">
+          <p class="eyebrow">00 / Tip Jar</p>
+          <h2 class="jar-title">How full<br>is the cup?</h2>
+
+          <div class="jar-usd-total">
+            <span class="stat-label">Total raised (all chains · live)</span>
+            <strong id="jar-usd">$—</strong>
+          </div>
+
+          <!-- SVG Containers — one per tier, JS shows active one -->
+          <div class="container-stage" id="container-stage">
+
+            <!-- Tier 1: Crushed Paper Cup -->
+            <svg id="tier-svg-1" class="container-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Crushed paper cup">
+              <defs>
+                <clipPath id="fill-clip-1">
+                  <rect id="fill-rect-1" x="0" y="200" width="200" height="0"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#fill-clip-1)">
+                <rect x="0" y="0" width="200" height="200" fill="#a8d5b0"/>
+              </g>
+              <!-- Cup outline: tapered trapezoid, crushed left side -->
+              <path d="M 55 30 L 145 30 L 162 175 L 38 175 Z" fill="none" stroke="#171717" stroke-width="4" stroke-linejoin="round"/>
+              <!-- Crushed dents -->
+              <path d="M 55 30 L 62 70 L 50 90 L 60 115" fill="none" stroke="#171717" stroke-width="2.5"/>
+              <path d="M 38 175 L 45 155 L 36 130" fill="none" stroke="#171717" stroke-width="2.5"/>
+              <!-- Rim fold -->
+              <path d="M 50 30 Q 100 22 150 30" fill="none" stroke="#171717" stroke-width="3"/>
+              <!-- Straw hole -->
+              <circle cx="120" cy="33" r="4" fill="none" stroke="#171717" stroke-width="2"/>
+            </svg>
+
+            <!-- Tier 2: Soggy Cardboard Box -->
+            <svg id="tier-svg-2" class="container-svg is-hidden" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Soggy cardboard box">
+              <defs>
+                <clipPath id="fill-clip-2">
+                  <rect id="fill-rect-2" x="0" y="200" width="200" height="0"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#fill-clip-2)">
+                <rect x="0" y="0" width="200" height="200" fill="#c9b99a"/>
+              </g>
+              <!-- Box body — slightly drooping bottom -->
+              <path d="M 30 60 L 170 60 L 168 178 Q 100 185 32 178 Z" fill="none" stroke="#171717" stroke-width="4" stroke-linejoin="round"/>
+              <!-- Left flap (bent outward) -->
+              <path d="M 30 60 L 20 28 L 70 40 L 70 60" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
+              <!-- Right flap (bent other way) -->
+              <path d="M 170 60 L 180 25 L 130 38 L 130 60" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
+              <!-- Center flap overlap line -->
+              <line x1="70" y1="60" x2="100" y2="48" stroke="#171717" stroke-width="2.5"/>
+              <line x1="130" y1="60" x2="100" y2="48" stroke="#171717" stroke-width="2.5"/>
+              <!-- Corrugation lines -->
+              <line x1="30" y1="100" x2="168" y2="100" stroke="#171717" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <line x1="31" y1="130" x2="167" y2="132" stroke="#171717" stroke-width="1.5" stroke-dasharray="6,4"/>
+            </svg>
+
+            <!-- Tier 3: Rusty Metal Bucket -->
+            <svg id="tier-svg-3" class="container-svg is-hidden" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Rusty metal bucket">
+              <defs>
+                <clipPath id="fill-clip-3">
+                  <rect id="fill-rect-3" x="0" y="200" width="200" height="0"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#fill-clip-3)">
+                <rect x="0" y="0" width="200" height="200" fill="#c97b4b"/>
+              </g>
+              <!-- Bucket body -->
+              <path d="M 50 55 L 150 55 L 162 175 L 38 175 Z" fill="none" stroke="#171717" stroke-width="4" stroke-linejoin="round"/>
+              <!-- Rim ellipse top -->
+              <ellipse cx="100" cy="55" rx="50" ry="10" fill="none" stroke="#171717" stroke-width="3.5"/>
+              <!-- Bottom ellipse -->
+              <ellipse cx="100" cy="175" rx="62" ry="8" fill="none" stroke="#171717" stroke-width="3"/>
+              <!-- Handle arcs -->
+              <path d="M 58 45 Q 100 10 142 45" fill="none" stroke="#171717" stroke-width="3.5" stroke-linecap="round"/>
+              <!-- Handle attachment rivets -->
+              <circle cx="58" cy="48" r="5" fill="#171717"/>
+              <circle cx="142" cy="48" r="5" fill="#171717"/>
+              <!-- Rust patches -->
+              <path d="M 80 100 Q 85 95 95 102 Q 88 110 80 100Z" fill="none" stroke="#171717" stroke-width="1.5"/>
+              <path d="M 130 140 Q 137 134 145 141 Q 138 150 130 140Z" fill="none" stroke="#171717" stroke-width="1.5"/>
+            </svg>
+
+            <!-- Tier 4: Industrial Wheelbarrow -->
+            <svg id="tier-svg-4" class="container-svg is-hidden" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Industrial wheelbarrow">
+              <defs>
+                <clipPath id="fill-clip-4">
+                  <rect id="fill-rect-4" x="0" y="200" width="200" height="0"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#fill-clip-4)">
+                <rect x="0" y="0" width="200" height="200" fill="#7a9fc4"/>
+              </g>
+              <!-- Bin body (trapezoid, wider top) -->
+              <path d="M 25 55 L 175 55 L 158 148 L 42 148 Z" fill="none" stroke="#171717" stroke-width="4" stroke-linejoin="round"/>
+              <!-- Front wheel -->
+              <circle cx="100" cy="170" r="18" fill="none" stroke="#171717" stroke-width="3.5"/>
+              <circle cx="100" cy="170" r="5" fill="#171717"/>
+              <!-- Wheel spokes -->
+              <line x1="100" y1="152" x2="100" y2="188" stroke="#171717" stroke-width="2"/>
+              <line x1="82" y1="170" x2="118" y2="170" stroke="#171717" stroke-width="2"/>
+              <!-- Left handle -->
+              <path d="M 42 148 L 18 188" stroke="#171717" stroke-width="4" stroke-linecap="round"/>
+              <line x1="10" y1="188" x2="26" y2="188" stroke="#171717" stroke-width="4" stroke-linecap="round"/>
+              <!-- Right handle -->
+              <path d="M 158 148 L 182 188" stroke="#171717" stroke-width="4" stroke-linecap="round"/>
+              <line x1="174" y1="188" x2="190" y2="188" stroke="#171717" stroke-width="4" stroke-linecap="round"/>
+              <!-- Leg supports -->
+              <line x1="42" y1="148" x2="32" y2="170" stroke="#171717" stroke-width="3" stroke-linecap="round"/>
+              <line x1="158" y1="148" x2="168" y2="170" stroke="#171717" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+
+            <!-- Tier 5: Offshore Vault -->
+            <svg id="tier-svg-5" class="container-svg is-hidden" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Offshore vault">
+              <defs>
+                <clipPath id="fill-clip-5">
+                  <rect id="fill-rect-5" x="0" y="200" width="200" height="0"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#fill-clip-5)">
+                <rect x="0" y="0" width="200" height="200" fill="#d7f559"/>
+              </g>
+              <!-- Vault outer body -->
+              <rect x="18" y="18" width="164" height="164" rx="8" fill="none" stroke="#171717" stroke-width="5"/>
+              <!-- Inner door frame -->
+              <rect x="30" y="30" width="140" height="140" rx="5" fill="none" stroke="#171717" stroke-width="3"/>
+              <!-- Combination dial -->
+              <circle cx="100" cy="100" r="32" fill="none" stroke="#171717" stroke-width="3.5"/>
+              <circle cx="100" cy="100" r="10" fill="#171717"/>
+              <!-- Dial notches -->
+              <line x1="100" y1="68" x2="100" y2="75" stroke="#171717" stroke-width="2.5"/>
+              <line x1="100" y1="125" x2="100" y2="132" stroke="#171717" stroke-width="2.5"/>
+              <line x1="68" y1="100" x2="75" y2="100" stroke="#171717" stroke-width="2.5"/>
+              <line x1="125" y1="100" x2="132" y2="100" stroke="#171717" stroke-width="2.5"/>
+              <!-- Pointer -->
+              <line x1="100" y1="90" x2="100" y2="100" stroke="#d7f559" stroke-width="3" stroke-linecap="round"/>
+              <!-- Handle bar -->
+              <rect x="148" y="85" width="12" height="30" rx="4" fill="none" stroke="#171717" stroke-width="3"/>
+              <!-- Hinge bolts left -->
+              <circle cx="38" cy="60" r="5" fill="none" stroke="#171717" stroke-width="2.5"/>
+              <circle cx="38" cy="140" r="5" fill="none" stroke="#171717" stroke-width="2.5"/>
+              <!-- Corner ornaments -->
+              <path d="M 30 30 L 48 30 L 48 48" fill="none" stroke="#171717" stroke-width="2"/>
+              <path d="M 170 30 L 152 30 L 152 48" fill="none" stroke="#171717" stroke-width="2"/>
+              <path d="M 30 170 L 48 170 L 48 152" fill="none" stroke="#171717" stroke-width="2"/>
+              <path d="M 170 170 L 152 170 L 152 152" fill="none" stroke="#171717" stroke-width="2"/>
+            </svg>
+
+          </div>
+
+          <!-- Tier label -->
+          <div class="tier-label-row">
+            <span class="tier-badge" id="tier-badge">TIER 1</span>
+            <span class="tier-name" id="tier-name">The Crushed Paper Cup</span>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+            <span class="progress-pct" id="progress-pct">0%</span>
+          </div>
+
+          <!-- Countdown copy -->
+          <p class="countdown-copy" id="countdown-copy">Loading…</p>
+
+        </div>
+
+        <!-- WALL OF ABSOLUTION ────────────────────── -->
+        <div class="leaderboard-panel">
+          <p class="eyebrow">00B / The Wall of Absolution</p>
+          <h2 class="jar-title">Guilty<br>wallets.</h2>
+
+          <table class="absolution-table" aria-label="Top donors leaderboard">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>DONOR</th>
+                <th>TOTAL</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+              <tr class="vacant-row"><td>#1</td><td colspan="3" class="vacant-slot">[VACANT — ARE YOU TOO BROKE TO CLAIM THIS?]</td></tr>
+              <tr class="vacant-row"><td>#2</td><td colspan="3" class="vacant-slot">[AWAITING GUILTY WHALE]</td></tr>
+              <tr class="vacant-row"><td>#3</td><td colspan="3" class="vacant-slot">[EMPTY — RETAIL WAILS DETECTED]</td></tr>
+              <tr class="vacant-row"><td>#4</td><td colspan="3" class="vacant-slot">[SLOT RESERVED FOR SOMEONE ASHAMED]</td></tr>
+              <tr class="vacant-row"><td>#5</td><td colspan="3" class="vacant-slot">[PROBABLY YOU, READING THIS RIGHT NOW]</td></tr>
+            </tbody>
+          </table>
+
+          <div class="leaderboard-meta">
+            <span id="leaderboard-note" class="stat-note">Aggregating Base · ETH · ARB · OP · Polygon</span>
+            <a class="button button-primary leaderboard-cta" href="#chains">Absolve your wallet / Claim rank <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <section class="section-shell ledger-section" id="ledger">
       <div class="section-heading">
         <p class="eyebrow">01 / The ledger</p>
@@ -142,7 +354,7 @@
         <article class="stat-card featured">
           <span class="stat-label">Current balance (Base)</span>
           <strong id="stat-balance">—</strong>
-          <span class="stat-note">Live · auto-refreshes every 30 s</span>
+          <span class="stat-note">Live · auto-refreshes every 5 s</span>
         </article>
         <article class="stat-card">
           <span class="stat-label">Exact amount in WEI</span>
@@ -331,6 +543,6 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="script.js?v=7"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>
