@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BEGGAR — the internet's most transparent wallet. No roadmap. No promises. Just asking.">
+  <title>BEGGAR — No roadmap. No promises. Just asking.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=7">
+</head>
+<body>
+
+  <div id="money-rain" class="money-rain" aria-hidden="true"></div>
+
+  <button id="toggle-rain" class="rain-toggle" type="button" aria-label="Toggle money rain" title="Toggle money rain">
+    <span class="rain-toggle-icon">💸</span><span class="rain-toggle-label">RAIN: ON</span>
+  </button>
+
+  <dialog id="qr-modal" aria-modal="true" aria-labelledby="modal-chain-name">
+    <div class="modal-inner">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <span class="modal-eyebrow">DONATE VIA</span>
+          <strong id="modal-chain-name">EVM FAMILY</strong>
+        </div>
+        <button class="modal-close" id="modal-close" type="button" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-address-row">
+        <code id="modal-address" class="modal-address-code"></code>
+        <button class="copy-button" id="modal-copy" type="button">Copy</button>
+      </div>
+      <div class="modal-tabs" role="tablist">
+        <button class="modal-tab is-active" data-tab="qr" role="tab" aria-selected="true" type="button">QR Code</button>
+        <button class="modal-tab" data-tab="send" role="tab" aria-selected="false" type="button">⚡ Quick Send</button>
+      </div>
+      <div id="tab-qr" class="tab-panel">
+        <div class="qr-center">
+          <div id="qr-canvas" class="qr-canvas-wrap"></div>
+        </div>
+        <p class="modal-note">Scan with any mobile wallet to send directly to this address.</p>
+      </div>
+      <div id="tab-send" class="tab-panel tab-hidden">
+        <div id="quick-send-grid" class="quick-send-grid"></div>
+        <p class="modal-disclaimer">
+          These links open third-party wallet apps pre-filled with the address shown above.
+          Always verify the destination address in your wallet before confirming any transaction.
+          BEGGAR is not affiliated with any of these services.
+        </p>
+      </div>
+    </div>
+  </dialog>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="BEGGAR home"><span class="brand-mark">$</span> BEGGAR</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#ledger">Ledger</a>
+      <a href="#manifesto">Manifesto</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="button button-small button-dark" href="#chains">Give alms <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="top">
+
+    <section class="hero section-shell">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-dot"></span> An on-chain performance</p>
+        <h1 id="hero-slogan">
+          <span class="line-black">SKIP THE RUG PULL.</span>
+          <span class="line-red">JUST SEND IT.</span>
+        </h1>
+        <p class="hero-intro" id="hero-sub">At least I won't pretend I have a roadmap.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#chains">Give alms <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#manifesto">Read the manifesto <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <div class="hero-card" aria-label="Current begging status">
+        <div class="card-topline"><span>BEGGAR / STATUS</span><span>001</span></div>
+        <div class="beggar-illustration" aria-hidden="true">
+          <div class="halo"></div>
+          <div class="figure-head"></div>
+          <div class="figure-body"></div>
+          <div class="hand hand-left">↗</div>
+          <div class="hand hand-right">↖</div>
+        </div>
+        <div class="card-message">"I have nothing<br>but this wallet."</div>
+        <div class="card-bottomline"><span>LAST ASK: NOW</span><span class="mono">0x7b78...7E56</span></div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Project statement">
+      <div class="ticker-track">
+        <span>NO ROADMAP</span><b>✳</b>
+        <span>NO PROMISES</span><b>✳</b>
+        <span>PUBLIC LEDGER</span><b>✳</b>
+        <span>JUST ASKING</span><b>✳</b>
+        <span>ZERO UTILITY</span><b>✳</b>
+        <span>NO FAKE PARTNERSHIPS</span><b>✳</b>
+        <span>DIGITAL CARDBOARD</span><b>✳</b>
+        <span>PROOF OF PITY</span><b>✳</b>
+        <span>SKIP THE WHITEPAPER</span><b>✳</b>
+        <span>100% LOSS GUARANTEED</span><b>✳</b>
+        <span>HONEST DISAPPOINTMENT</span><b>✳</b>
+        <span>P2P BEGGING</span><b>✳</b>
+        <span>NO YIELD NO TEARS</span><b>✳</b>
+        <span>TOO BROKE TO RUG</span><b>✳</b>
+        <span>YOUR LOSS MY LUNCH</span><b>✳</b>
+        <span>SIDEWALK LIQUIDITY</span><b>✳</b>
+        <span>SHAMELESS ON-CHAIN</span><b>✳</b>
+        <span>NO AIRDROP PLANNED (YET)</span><b>✳</b>
+        <span>ZERO AUDIT NECESSARY</span><b>✳</b>
+        <span>BUY NOTHING GET NOTHING</span><b>✳</b>
+        <span>TRUSTLESS CHARITY</span><b>✳</b>
+        <span>DOWN ONLY CAPITAL</span><b>✳</b>
+        <span>UNREGULATED PANHANDLING</span><b>✳</b>
+        <span>WE DO NOT DELIVER</span><b>✳</b>
+        <span>COLD WALLET EMPTY POCKETS</span><b>✳</b>
+        <span>ZERO VALUE PROPOSITION</span><b>✳</b>
+        <span>EXIT LIQUIDITY DONOR</span><b>✳</b>
+        <span>NO DISCORD ALPHA</span><b>✳</b>
+        <span>SPARE SOME GAS</span><b>✳</b>
+        <span>VOLUNTARY LOSS</span><b>✳</b>
+        <span>SHAKE THE DIGITAL CUP</span><b>✳</b>
+        <span>UNBACKED UNPROMISED</span><b>✳</b>
+        <span>THE HONEST DUMP</span><b>✳</b>
+        <span>PERMISSIONLESS BEGGING</span><b>✳</b>
+        <span>ZERO APY FOREVER</span><b>✳</b>
+        <span>NOT ADVICE JUST BEGGING</span><b>✳</b>
+      </div>
+    </section>
+
+    <section class="section-shell ledger-section" id="ledger">
+      <div class="section-heading">
+        <p class="eyebrow">01 / The ledger</p>
+        <h2>Every coin has<br>a witness.</h2>
+        <p>Nothing hidden. Every contribution and every spend will be visible here. Public transactions, public balance, zero secrets.</p>
+      </div>
+      <div class="stats-grid">
+        <article class="stat-card featured">
+          <span class="stat-label">Current balance (Base)</span>
+          <strong id="stat-balance">—</strong>
+          <span class="stat-note">Live · auto-refreshes every 30 s</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Exact amount in WEI</span>
+          <strong id="stat-wei" class="stat-wei-val">—</strong>
+          <span class="stat-note">1 ETH = 10¹⁸ WEI</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Last RPC update</span>
+          <strong id="stat-last-update">—</strong>
+          <span class="stat-note">Querying mainnet.base.org</span>
+        </article>
+      </div>
+      <div class="address-row">
+        <div>
+          <span class="stat-label">Official EVM wallet · Base · Ethereum · Arbitrum · Optimism · Polygon · BNB · Linea · Monad</span>
+          <code id="wallet-address">0x7b7860E60330b3363380fe33913F3eACc1737E56</code>
+          <div class="address-links">
+            <a href="https://basescan.org/address/0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer">Basescan ↗</a>
+            <a href="https://etherscan.io/address/0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer">Etherscan ↗</a>
+            <a href="https://arbiscan.io/address/0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer">Arbiscan ↗</a>
+            <a href="https://polygonscan.com/address/0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer">Polygonscan ↗</a>
+          </div>
+        </div>
+        <button class="copy-button" id="copy-wallet" type="button">Copy address</button>
+      </div>
+      <p class="ledger-note">The EVM wallet above is live and verified. Never send funds to an address announced only in a DM or reply.</p>
+    </section>
+
+    <section class="section-shell chains-section" id="chains">
+      <div class="section-heading chains-heading">
+        <p class="eyebrow">01B / Pick your poison</p>
+        <h2>Every chain.<br>Same sad ask.</h2>
+        <p>Send only on the network shown. Each address is verified and published here before accepting funds. Until then: no alms, no scams.</p>
+      </div>
+      <div class="chain-grid">
+
+        <article class="chain-card chain-featured">
+          <div class="chain-meta">
+            <span class="chain-icon">Ξ</span>
+            <span class="chain-status chain-status-live">● Live</span>
+          </div>
+          <h3>EVM family</h3>
+          <p>Ethereum · Base · Arbitrum · Optimism · Polygon · BNB Chain · Linea · Monad</p>
+          <code data-address="0x7b7860E60330b3363380fe33913F3eACc1737E56">0x7b7860E60330b3363380fe33913F3eACc1737E56</code>
+          <div class="chain-actions">
+            <button class="chain-copy" type="button">Copy</button>
+            <button class="chain-qr" type="button" data-qr-chain="evm">QR / Send ↗</button>
+            <a class="chain-link" href="https://basescan.org/address/0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer">Basescan ↗</a>
+          </div>
+        </article>
+
+        <article class="chain-card">
+          <div class="chain-meta">
+            <span class="chain-icon">₿</span>
+            <span class="chain-status chain-status-live">● Live</span>
+          </div>
+          <h3>Bitcoin</h3>
+          <p>BTC mainnet · Native SegWit</p>
+          <code data-address="bc1qkzlk3xwa6lxsakg0l028yl0aca76y0vl7a5jts">bc1qkzlk3xwa6lxsakg0l028yl0aca76y0vl7a5jts</code>
+          <div class="chain-actions">
+            <button class="chain-copy" type="button">Copy</button>
+            <button class="chain-qr" type="button" data-qr-chain="btc">QR / Send ↗</button>
+            <a class="chain-link" href="https://mempool.space/address/bc1qkzlk3xwa6lxsakg0l028yl0aca76y0vl7a5jts" target="_blank" rel="noopener noreferrer">Mempool ↗</a>
+          </div>
+        </article>
+
+        <article class="chain-card">
+          <div class="chain-meta">
+            <span class="chain-icon">◎</span>
+            <span class="chain-status chain-status-live">● Live</span>
+          </div>
+          <h3>Solana</h3>
+          <p>SOL mainnet</p>
+          <code data-address="B9TRxqnagb6SoiLeJyr4XpvjjnKtZiUrFdZnDv8ycWzK">B9TRxqnagb6SoiLeJyr4XpvjjnKtZiUrFdZnDv8ycWzK</code>
+          <div class="chain-actions">
+            <button class="chain-copy" type="button">Copy</button>
+            <button class="chain-qr" type="button" data-qr-chain="sol">QR / Send ↗</button>
+            <a class="chain-link" href="https://solscan.io/account/B9TRxqnagb6SoiLeJyr4XpvjjnKtZiUrFdZnDv8ycWzK" target="_blank" rel="noopener noreferrer">Solscan ↗</a>
+          </div>
+        </article>
+
+        <article class="chain-card">
+          <div class="chain-meta">
+            <span class="chain-icon">T</span>
+            <span class="chain-status chain-status-live">● Live</span>
+          </div>
+          <h3>Tron</h3>
+          <p>TRX mainnet</p>
+          <code data-address="TAVKuTfRhQafeLKS79x1jjGQBGrgwNtUz9">TAVKuTfRhQafeLKS79x1jjGQBGrgwNtUz9</code>
+          <div class="chain-actions">
+            <button class="chain-copy" type="button">Copy</button>
+            <button class="chain-qr" type="button" data-qr-chain="tron">QR / Send ↗</button>
+            <a class="chain-link" href="https://tronscan.org/#/address/TAVKuTfRhQafeLKS79x1jjGQBGrgwNtUz9" target="_blank" rel="noopener noreferrer">Tronscan ↗</a>
+          </div>
+        </article>
+
+        <article class="chain-card">
+          <div class="chain-meta">
+            <span class="chain-icon">◈</span>
+            <span class="chain-status">Coming soon</span>
+          </div>
+          <h3>TON</h3>
+          <p>The Open Network</p>
+          <code data-address="WALLET_NOT_DEPLOYED">WALLET_NOT_DEPLOYED</code>
+          <button class="chain-copy" type="button" disabled>Copy address</button>
+        </article>
+
+        <article class="chain-card">
+          <div class="chain-meta">
+            <span class="chain-icon">✦</span>
+            <span class="chain-status">Coming soon</span>
+          </div>
+          <h3>Other chains</h3>
+          <p>XRP · Cardano · Cosmos · Sui · Aptos</p>
+          <code data-address="WALLET_NOT_DEPLOYED">WALLET_NOT_DEPLOYED</code>
+          <button class="chain-copy" type="button" disabled>Copy address</button>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="dark-section" id="manifesto">
+      <div class="section-shell manifesto-grid">
+        <div>
+          <p class="eyebrow eyebrow-light">02 / The manifesto</p>
+          <h2>We are not<br>building.</h2>
+        </div>
+        <div class="manifesto-text">
+          <p>We are asking.</p>
+          <p>BEGGAR is a satire of crypto's endless promises. There is no secret utility hiding behind a curtain. No guaranteed return. No fake emergency. The bit is simple: a wallet asks the internet for money, and the internet decides whether to answer.</p>
+          <p>If you give, you are supporting a public performance and nothing more. Your contribution is voluntary, visible, and gone once sent.</p>
+          <div class="signature">— BEGGAR<br><span>still outside</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell give-section" id="give">
+      <div class="give-panel">
+        <div>
+          <p class="eyebrow">03 / Give alms</p>
+          <h2>One small<br>transaction.</h2>
+          <p class="give-copy">Four chains now live: EVM, Bitcoin, Solana, Tron. Send directly, scan a QR on mobile, or tap Quick Send for desktop wallets. More chains deploying soon.</p>
+        </div>
+        <div class="give-actions">
+          <a class="button button-primary" href="#chains">Choose a chain <span aria-hidden="true">↑</span></a>
+          <div class="social-links">
+            <a href="#" aria-label="X social profile">X / @beggar</a>
+            <a href="#" aria-label="Telegram social profile">Telegram / beggar</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell faq-section" id="faq">
+      <p class="eyebrow">04 / Small print</p>
+      <div class="faq-list">
+        <details open>
+          <summary>Is BEGGAR a charity?</summary>
+          <p>No. BEGGAR is a satirical art and meme project. Contributions are not charitable donations and are not tax-deductible.</p>
+        </details>
+        <details>
+          <summary>Is $BEGGAR an investment?</summary>
+          <p>No. If a token is launched it will be clearly labeled as a participation meme token. There will be no promise of profit, yield, utility, or future value.</p>
+        </details>
+        <details>
+          <summary>Where does the money go?</summary>
+          <p>The wallet activity is 100% public. Any spending will be documented with receipts or transaction links. No hidden wallets, undisclosed fees, or fake causes.</p>
+        </details>
+        <details>
+          <summary>How do I know this is official?</summary>
+          <p>Only trust addresses and links published on this site. The official addresses are shown above and will never be shared only through a reply or direct message.</p>
+        </details>
+        <details>
+          <summary>Are the QR / Quick Send links safe?</summary>
+          <p>The QR and Quick Send buttons open third-party wallet apps pre-filled with the verified address shown on this page. Always verify the destination address in your wallet before confirming. BEGGAR is not affiliated with MetaMask, Phantom, Coinbase, Rainbow, or any other wallet service.</p>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="brand"><span class="brand-mark">$</span> BEGGAR</div>
+    <p>Made with an open hand.<br><span>© 2026 BEGGAR. No promises implied.</span></p>
+    <a class="back-top" href="#top">Back to top ↑</a>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="script.js?v=7"></script>
+</body>
+</html>
