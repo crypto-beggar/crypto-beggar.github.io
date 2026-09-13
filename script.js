@@ -625,7 +625,30 @@ function applyRainState(isOff) {
   try { if (localStorage.getItem('beggar-rain-off') === '1') applyRainState(true); } catch (_) {}
 })();
 
-rainToggleBtn?.addEventListener('click', () => applyRainState(!document.body.classList.contains('rain-off')));
+function dismissRainHint() {
+  const hint = document.getElementById('rain-hint');
+  if (!hint || hint.classList.contains('is-fading') || hint.classList.contains('is-gone')) return;
+  hint.classList.add('is-fading');
+  setTimeout(() => hint.classList.add('is-gone'), 2000);
+  try { localStorage.setItem('beggar-hint-seen', '1'); } catch {}
+}
+
+function initRainHint() {
+  const hint = document.getElementById('rain-hint');
+  if (!hint) return;
+  try {
+    if (localStorage.getItem('beggar-hint-seen') === '1' || localStorage.getItem('beggar-rain-off') === '1') {
+      hint.classList.add('is-gone');
+      return;
+    }
+  } catch {}
+  setTimeout(dismissRainHint, 8000);
+}
+
+rainToggleBtn?.addEventListener('click', () => {
+  applyRainState(!document.body.classList.contains('rain-off'));
+  dismissRainHint();
+});
 
 async function init() {
   initTickerLoop();
@@ -639,6 +662,7 @@ async function init() {
   fetchBaseBalance();
   fetchLeaderboard();
 
+  initRainHint();
   setInterval(updateTipJar, 5_000);
   setInterval(fetchBaseBalance, 5_000);
   setInterval(fetchPrices, 60_000);
