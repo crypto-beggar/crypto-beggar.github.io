@@ -642,7 +642,7 @@ function initRainHint() {
       return;
     }
   } catch {}
-  setTimeout(dismissRainHint, 8000);
+  setTimeout(dismissRainHint, 10_000);
 }
 
 rainToggleBtn?.addEventListener('click', () => {
@@ -653,6 +653,7 @@ rainToggleBtn?.addEventListener('click', () => {
 async function init() {
   initTickerLoop();
   initMoneyRain();
+  initRainHint();
 
   currentTierIndex = Math.min(savedTier, TIERS.length - 1);
   showContainerSvg(currentTierIndex);
@@ -662,7 +663,6 @@ async function init() {
   fetchBaseBalance();
   fetchLeaderboard();
 
-  initRainHint();
   setInterval(updateTipJar, 5_000);
   setInterval(fetchBaseBalance, 5_000);
   setInterval(fetchPrices, 60_000);
