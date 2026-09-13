@@ -14,9 +14,6 @@
 
   <div id="money-rain" class="money-rain" aria-hidden="true"></div>
 
-  <button id="toggle-rain" class="rain-toggle" type="button" aria-label="Toggle money rain" title="Toggle money rain">
-    <span class="rain-toggle-icon">💸</span><span class="rain-toggle-label">RAIN: ON</span>
-  </button>
 
   <div id="celebration-overlay" class="celebration-overlay" aria-live="assertive" aria-hidden="true">
     <div class="celebration-inner">
@@ -67,7 +64,12 @@
       <a href="#manifesto">Manifesto</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="button button-small button-dark" href="#chains">Give alms <span aria-hidden="true">↗</span></a>
+    <div class="header-actions">
+      <button id="toggle-rain" class="rain-toggle" type="button" aria-label="Toggle money rain">
+        <span class="rain-toggle-icon">💸</span><span class="rain-toggle-label">RAIN: ON</span>
+      </button>
+      <a class="button button-small button-dark" href="#chains">Give alms <span aria-hidden="true">↗</span></a>
+    </div>
   </header>
 
   <main id="top">
