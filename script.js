@@ -55,7 +55,7 @@ let currentTierIndex  = 0;
 let prevFillPct       = 0;
 let celebrationActive = false;
 
-const savedTier = (() => { try { return parseInt(localStorage.getItem('beggar-tier') || '1', 10); } catch { return 1; } })();
+const savedTier = (() => { try { return parseInt(localStorage.getItem('beggar-tier') || '0', 10); } catch { return 0; } })();
 
 const SLOGANS = [
   { line1: 'SKIP THE RUG PULL.',       line2: 'JUST SEND IT.',      sub: "At least I won't pretend I have a roadmap." },
@@ -365,20 +365,29 @@ async function updateTipJar() {
   cachedTotalUSD = usd;
 
   const newTierIdx  = getTier(usd);
-  const currentTier = TIERS[currentTierIndex];
-  const isLast      = currentTier.max === Infinity;
-  const fillPct     = isLast ? 1 : Math.max(0, Math.min(1, (usd - currentTier.min) / (currentTier.max - currentTier.min)));
 
   if (!celebrationActive) {
     if (newTierIdx > currentTierIndex) {
+      const currentTier = TIERS[currentTierIndex];
+      const isLast      = currentTier.max === Infinity;
+      const fillPct     = isLast ? 1 : Math.max(0, Math.min(1, (usd - currentTier.min) / (currentTier.max - currentTier.min)));
       setFillRect(currentTierIndex, 1);
       renderTierUI(currentTierIndex, usd);
       setTimeout(() => triggerCelebration(currentTierIndex, newTierIdx), 600);
+      prevFillPct = fillPct;
     } else {
+      if (newTierIdx !== currentTierIndex) {
+        currentTierIndex = newTierIdx;
+        showContainerSvg(currentTierIndex);
+        try { localStorage.setItem('beggar-tier', String(currentTierIndex)); } catch {}
+      }
+      const currentTier = TIERS[currentTierIndex];
+      const isLast      = currentTier.max === Infinity;
+      const fillPct     = isLast ? 1 : Math.max(0, Math.min(1, (usd - currentTier.min) / (currentTier.max - currentTier.min)));
       setFillRect(currentTierIndex, fillPct);
       renderTierUI(currentTierIndex, usd);
+      prevFillPct = fillPct;
     }
-    prevFillPct = fillPct;
   }
 }
 

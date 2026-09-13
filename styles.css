@@ -609,7 +609,15 @@ h1 {
   gap: 16px;
   align-items: flex-start;
 }
+.leaderboard-blurb {
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 14px;
+  margin: 0;
+  max-width: 360px;
+}
 .leaderboard-cta { align-self: stretch; justify-content: center; }
+
 
 .ledger-section { padding-top: 100px; padding-bottom: 110px; }
 .section-heading {
