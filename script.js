@@ -630,14 +630,14 @@ function dismissRainHint() {
   if (!hint || hint.classList.contains('is-fading') || hint.classList.contains('is-gone')) return;
   hint.classList.add('is-fading');
   setTimeout(() => hint.classList.add('is-gone'), 2000);
-  try { localStorage.setItem('beggar-hint-seen', '1'); } catch {}
+  try { localStorage.setItem('beggar-hint-seen-v2', '1'); } catch {}
 }
 
 function initRainHint() {
   const hint = document.getElementById('rain-hint');
   if (!hint) return;
   try {
-    if (localStorage.getItem('beggar-hint-seen') === '1' || localStorage.getItem('beggar-rain-off') === '1') {
+    if (localStorage.getItem('beggar-hint-seen-v2') === '1') {
       hint.classList.add('is-gone');
       return;
     }

@@ -95,44 +95,46 @@ body.rain-off .money-rain { opacity: 0; pointer-events: none; }
 
 .rain-hint {
   position: absolute;
-  top: calc(100% + 14px);
-  right: 0;
+  top: calc(100% + 12px);
+  right: -4px;
   left: auto;
   transform: none;
-  width: min(270px, calc(100vw - 32px));
-  background: var(--red);
-  color: #fff;
-  font: 700 9px var(--mono);
-  text-transform: uppercase;
-  letter-spacing: .07em;
+  width: min(245px, calc(100vw - 32px));
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--red);
+  font: 500 9px/1.35 var(--mono);
+  text-transform: none;
+  letter-spacing: .02em;
   white-space: normal;
   text-align: left;
-  padding: 9px 14px;
+  padding: 8px 12px;
   pointer-events: none;
   opacity: 1;
   transition: opacity .8s ease;
   z-index: 300;
-  box-shadow: 3px 3px 0 rgba(0,0,0,.2);
+  box-shadow: 2px 2px 0 rgba(23,23,23,.12);
 }
 .rain-hint::before {
   content: '';
   position: absolute;
   top: -7px;
-  right: 22px;
+  right: 4px;
   left: auto;
-  transform: none;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
   border-bottom: 7px solid var(--red);
 }
 .rain-hint::after {
-  content: '↑';
+  content: '';
   position: absolute;
-  top: -34px;
-  right: 18px;
-  color: var(--red);
-  font: 700 28px/1 var(--display);
-  text-shadow: 1px 1px 0 var(--paper);
+  top: -14px;
+  right: 10px;
+  width: 1px;
+  height: 8px;
+  background: var(--red);
 }
 .rain-hint.is-fading { opacity: 0; }
 .rain-hint.is-gone   { display: none; }
