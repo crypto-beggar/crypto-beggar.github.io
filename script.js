@@ -224,8 +224,8 @@ async function fetchAllBalancesUSD() {
   const statUpdateEl = document.getElementById('stat-last-update');
   const timeStr = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-  if (statBalEl)    statBalEl.textContent    = `${baseEth.toFixed(6)} ETH`;
-  if (statWeiEl)    statWeiEl.textContent    = `${baseWei.toLocaleString('en-US')} WEI`;
+  if (statBalEl)    statBalEl.textContent    = `$${usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  if (statWeiEl)    statWeiEl.textContent    = `${totalEth.toFixed(6)} ETH`;
   if (statUpdateEl) statUpdateEl.textContent = timeStr;
 
   return usd;
@@ -674,11 +674,9 @@ async function init() {
 
   await fetchPrices();
   await updateTipJar();
-  fetchBaseBalance();
   fetchLeaderboard();
 
   setInterval(updateTipJar, 5_000);
-  setInterval(fetchBaseBalance, 5_000);
   setInterval(fetchPrices, 60_000);
   setInterval(fetchLeaderboard, 120_000);
 }
