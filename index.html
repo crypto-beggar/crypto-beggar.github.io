@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BEGGAR — the internet's most transparent wallet. No roadmap. No promises. Just asking.">
+  <title>BEGGAR — No roadmap. No promises. Just asking.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=9">
+</head>
+<body>
+
+  <div id="money-rain" class="money-rain" aria-hidden="true"></div>
+
+
+  <div id="celebration-overlay" class="celebration-overlay" aria-live="assertive" aria-hidden="true">
+    <div class="celebration-inner">
+      <div class="celebration-title">CONTAINER FULL!</div>
+      <div class="celebration-sub">UPGRADED.</div>
+    </div>
+  </div>
+
+  <dialog id="qr-modal" aria-modal="true" aria-labelledby="modal-chain-name">
+    <div class="modal-inner">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <span class="modal-eyebrow">DONATE VIA</span>
+          <strong id="modal-chain-name">EVM FAMILY</strong>
+        </div>
+        <button class="modal-close" id="modal-close" type="button" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-address-row">
+        <code id="modal-address" class="modal-address-code"></code>
+        <button class="copy-button" id="modal-copy" type="button">Copy</button>
+      </div>
+      <div class="modal-tabs" role="tablist">
+        <button class="modal-tab is-active" data-tab="qr" role="tab" aria-selected="true" type="button">QR Code</button>
+        <button class="modal-tab" data-tab="send" role="tab" aria-selected="false" type="button">⚡ Quick Send</button>
+      </div>
+      <div id="tab-qr" class="tab-panel">
+        <div class="qr-center">
+          <div id="qr-canvas" class="qr-canvas-wrap"></div>
+        </div>
+        <p class="modal-note">Scan with any mobile wallet to send directly to this address.</p>
+      </div>
+      <div id="tab-send" class="tab-panel tab-hidden">
+        <div id="quick-send-grid" class="quick-send-grid"></div>
+        <p class="modal-disclaimer">
+          These links open third-party wallet apps pre-filled with the address shown above.
+          Always verify the destination address in your wallet before confirming any transaction.
+          BEGGAR is not affiliated with any of these services.
+        </p>
+      </div>
+    </div>
+  </dialog>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="BEGGAR home"><span class="brand-mark">$</span> BEGGAR</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#jar">Tip Jar</a>
+      <a href="#ledger">Ledger</a>
+      <a href="#manifesto">Manifesto</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <div class="rain-hint-wrap">
+        <button id="toggle-rain" class="rain-toggle" type="button" aria-label="Toggle money rain">
+          <span class="rain-toggle-icon">💸</span><span class="rain-toggle-label">RAIN: ON</span>
+        </button>
+        <div class="rain-hint" id="rain-hint" aria-hidden="true">Turn off the money rain here.</div>
+      </div>
+      <a class="button button-small button-dark" href="#chains">Give alms <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="hero section-shell">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-dot"></span> An on-chain performance</p>
+        <h1 id="hero-slogan">
+          <span class="line-black">SKIP THE RUG PULL.</span>
+          <span class="line-red">JUST SEND IT.</span>
+        </h1>
+        <p class="hero-intro" id="hero-sub">At least I won't pretend I have a roadmap.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#chains">Give alms <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#manifesto">Read the manifesto <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <div class="hero-card" aria-label="Current begging status">
+        <div class="card-topline"><span>BEGGAR / STATUS</span><span>001</span></div>
+        <div class="beggar-illustration" aria-hidden="true">
+          <div class="beggar-portrait-wrap">
+            <img src="beggar-portrait.jpg" alt="BEGGAR" class="beggar-portrait">
+          </div>
+        </div>
+        <div class="card-message">"I have nothing<br>but this wallet."</div>
+        <div class="card-bottomline"><span>LAST ASK: NOW</span><span class="mono">0x7b78...7E56</span></div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Project statement">
+      <div class="ticker-track">
+        <span>NO ROADMAP</span><b>✳</b>
+        <span>NO PROMISES</span><b>✳</b>
+        <span>PUBLIC LEDGER</span><b>✳</b>
+        <span>JUST ASKING</span><b>✳</b>
+        <span>ZERO UTILITY</span><b>✳</b>
+        <span>NO FAKE PARTNERSHIPS</span><b>✳</b>
+        <span>DIGITAL CARDBOARD</span><b>✳</b>
+        <span>PROOF OF PITY</span><b>✳</b>
+        <span>SKIP THE WHITEPAPER</span><b>✳</b>
+        <span>100% LOSS GUARANTEED</span><b>✳</b>
+        <span>HONEST DISAPPOINTMENT</span><b>✳</b>
+        <span>P2P BEGGING</span><b>✳</b>
+        <span>NO YIELD NO TEARS</span><b>✳</b>
+        <span>TOO BROKE TO RUG</span><b>✳</b>
+        <span>YOUR LOSS MY LUNCH</span><b>✳</b>
+        <span>SIDEWALK LIQUIDITY</span><b>✳</b>
+        <span>SHAMELESS ON-CHAIN</span><b>✳</b>
+        <span>NO AIRDROP PLANNED (YET)</span><b>✳</b>
+        <span>ZERO AUDIT NECESSARY</span><b>✳</b>
+        <span>BUY NOTHING GET NOTHING</span><b>✳</b>
+        <span>TRUSTLESS CHARITY</span><b>✳</b>
+        <span>DOWN ONLY CAPITAL</span><b>✳</b>
+        <span>UNREGULATED PANHANDLING</span><b>✳</b>
+        <span>WE DO NOT DELIVER</span><b>✳</b>
+        <span>COLD WALLET EMPTY POCKETS</span><b>✳</b>
+        <span>ZERO VALUE PROPOSITION</span><b>✳</b>
+        <span>EXIT LIQUIDITY DONOR</span><b>✳</b>
+        <span>NO DISCORD ALPHA</span><b>✳</b>
+        <span>SPARE SOME GAS</span><b>✳</b>
+        <span>VOLUNTARY LOSS</span><b>✳</b>
+        <span>SHAKE THE DIGITAL CUP</span><b>✳</b>
+        <span>UNBACKED UNPROMISED</span><b>✳</b>
+        <span>THE HONEST DUMP</span><b>✳</b>
+        <span>PERMISSIONLESS BEGGING</span><b>✳</b>
+        <span>ZERO APY FOREVER</span><b>✳</b>
+        <span>NOT ADVICE JUST BEGGING</span><b>✳</b>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         TIP JAR + WALL OF ABSOLUTION
+    ════════════════════════════════════════════════ -->
+    <section class="section-shell jar-wall-section" id="jar">
+      <div class="jar-wall-grid">
+
+        <!-- TIP JAR ──────────────────────────────── -->
+        <div class="tip-jar-panel">
+          <p class="eyebrow">00 / Tip Jar</p>
+          <h2 class="jar-title">How full<br>is the cup?</h2>
+
+          <div class="jar-usd-total">
+            <span class="stat-label">Total raised (all chains · live)</span>
+            <strong id="jar-usd">$—</strong>
+          </div>
+
+          <!-- SVG Containers — one per tier, JS shows active one -->
+          <div class="container-stage" id="container-stage">
+
+            <!-- Tier 1: Crushed Paper Cup -->
+            <svg id="tier-svg-1" class="container-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Crushed paper cup">
+              <defs>
+                <clipPath id="fill-clip-1">
+                  <rect id="fill-rect-1" x="0" y="200" width="200" height="0"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#fill-clip-1)">
+                <rect x="0" y="0" width="200" height="200" fill="#a8d5b0"/>
+              </g>
+              <!-- Cup outline: tapered trapezoid, crushed left side -->
+              <path d="M 55 30 L 145 30 L 162 175 L 38 175 Z" fill="none" stroke="#171717" stroke-width="4" stroke-linejoin="round"/>
+              <!-- Crushed dents -->
+              <path d="M 55 30 L 62 70 L 50 90 L 60 115" fill="none" stroke="#171717" stroke-width="2.5"/>
+              <path d="M 38 175 L 45 155 L 36 130" fill="none" stroke="#171717" stroke-width="2.5"/>
+              <!-- Rim fold -->
+              <path d="M 50 30 Q 100 22 150 30" fill="none" stroke="#171717" stroke-width="3"/>
+              <!-- Straw hole -->
+              <circle cx="120" cy="33" r="4" fill="none" stroke="#171717" stroke-width="2"/>
+            </svg>
+
+            <!-- Tier 2: Soggy Cardboard Box -->
+            <svg id="tier-svg-2" class="container-svg is-hidden" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Soggy cardboard box">
+              <defs>
+                <clipPath id="fill-clip-2">
+                  <rect id="fill-rect-2" x="0" y="200" width="200" height="0"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#fill-clip-2)">
+                <rect x="0" y="0" width="200" height="200" fill="#c9b99a"/>
+              </g>
+              <!-- Box body — slightly drooping bottom -->
+              <path d="M 30 60 L 170 60 L 168 178 Q 100 185 32 178 Z" fill="none" stroke="#171717" stroke-width="4" stroke-linejoin="round"/>
+              <!-- Left flap (bent outward) -->
+              <path d="M 30 60 L 20 28 L 70 40 L 70 60" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
+              <!-- Right flap (bent other way) -->
+              <path d="M 170 60 L 180 25 L 130 38 L 130 60" fill="none" stroke="#171717" stroke-width="3.5" stroke-linejoin="round"/>
+              <!-- Center flap overlap line -->
+              <line x1="70" y1="60" x2="100" y2="48" stroke="#171717" stroke-width="2.5"/>
+              <line x1="130" y1="60" x2="100" y2="48" stroke="#171717" stroke-width="2.5"/>
+              <!-- Corrugation lines -->
+              <line x1="30" y1="100" x2="168" y2="100" stroke="#171717" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <line x1="31" y1="130" x2="167" y2="132" stroke="#171717" stroke-width="1.5" stroke-dasharray="6,4"/>
+            </svg>
+
+            <!-- Tier 3: Rusty Metal Bucket -->
+            <svg id="tier-svg-3" class="container-svg is-hidden" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Rusty metal bucket">
+              <defs>
+                <clipPath id="fill-clip-3">
+                  <rect id="fill-rect-3" x="0" y="200" width="200" height="0"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#fill-clip-3)">
+                <rect x="0" y="0" width="200" height="200" fill="#c97b4b"/>
+              </g>
+              <!-- Bucket body -->
+              <path d="M 50 55 L 150 55 L 162 175 L 38 175 Z" fill="none" stroke="#171717" stroke-width="4" stroke-linejoin="round"/>
+              <!-- Rim ellipse top -->
+              <ellipse cx="100" cy="55" rx="50" ry="10" fill="none" stroke="#171717" stroke-width="3.5"/>
+              <!-- Bottom ellipse -->
+              <ellipse cx="100" cy="175" rx="62" ry="8" fill="none" stroke="#171717" stroke-width="3"/>
+              <!-- Handle arcs -->
+              <path d="M 58 45 Q 100 10 142 45" fill="none" stroke="#171717" stroke-width="3.5" stroke-linecap="round"/>
+              <!-- Handle attachment rivets -->
+              <circle cx="58" cy="48" r="5" fill="#171717"/>
+              <circle cx="142" cy="48" r="5" fill="#171717"/>
+              <!-- Rust patches -->
+              <path d="M 80 100 Q 85 95 95 102 Q 88 110 80 100Z" fill="none" stroke="#171717" stroke-width="1.5"/>
+              <path d="M 130 140 Q 137 134 145 141 Q 138 150 130 140Z" fill="none" stroke="#171717" stroke-width="1.5"/>
+            </svg>
+
+            <!-- Tier 4: Industrial Wheelbarrow -->
+            <svg id="tier-svg-4" class="container-svg is-hidden" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Industrial wheelbarrow">
+              <defs>
+                <clipPath id="fill-clip-4">
+                  <rect id="fill-rect-4" x="0" y="200" width="200" height="0"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#fill-clip-4)">
+                <rect x="0" y="0" width="200" height="200" fill="#7a9fc4"/>
+              </g>
+              <!-- Bin body (trapezoid, wider top) -->
+              <path d="M 25 55 L 175 55 L 158 148 L 42 148 Z" fill="none" stroke="#171717" stroke-width="4" stroke-linejoin="round"/>
+              <!-- Front wheel -->
+              <circle cx="100" cy="170" r="18" fill="none" stroke="#171717" stroke-width="3.5"/>
+              <circle cx="100" cy="170" r="5" fill="#171717"/>
+              <!-- Wheel spokes -->
+              <line x1="100" y1="152" x2="100" y2="188" stroke="#171717" stroke-width="2"/>
+              <line x1="82" y1="170" x2="118" y2="170" stroke="#171717" stroke-width="2"/>
+              <!-- Left handle -->
+              <path d="M 42 148 L 18 188" stroke="#171717" stroke-width="4" stroke-linecap="round"/>
+              <line x1="10" y1="188" x2="26" y2="188" stroke="#171717" stroke-width="4" stroke-linecap="round"/>
+              <!-- Right handle -->
+              <path d="M 158 148 L 182 188" stroke="#171717" stroke-width="4" stroke-linecap="round"/>
+              <line x1="174" y1="188" x2="190" y2="188" stroke="#171717" stroke-width="4" stroke-linecap="round"/>
+              <!-- Leg supports -->
+              <line x1="42" y1="148" x2="32" y2="170" stroke="#171717" stroke-width="3" stroke-linecap="round"/>
+              <line x1="158" y1="148" x2="168" y2="170" stroke="#171717" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+
+            <!-- Tier 5: Offshore Vault -->
+            <svg id="tier-svg-5" class="container-svg is-hidden" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Offshore vault">
+              <defs>
+                <clipPath id="fill-clip-5">
+                  <rect id="fill-rect-5" x="0" y="200" width="200" height="0"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#fill-clip-5)">
+                <rect x="0" y="0" width="200" height="200" fill="#d7f559"/>
+              </g>
+              <!-- Vault outer body -->
+              <rect x="18" y="18" width="164" height="164" rx="8" fill="none" stroke="#171717" stroke-width="5"/>
+              <!-- Inner door frame -->
+              <rect x="30" y="30" width="140" height="140" rx="5" fill="none" stroke="#171717" stroke-width="3"/>
+              <!-- Combination dial -->
+              <circle cx="100" cy="100" r="32" fill="none" stroke="#171717" stroke-width="3.5"/>
+              <circle cx="100" cy="100" r="10" fill="#171717"/>
+              <!-- Dial notches -->
+              <line x1="100" y1="68" x2="100" y2="75" stroke="#171717" stroke-width="2.5"/>
+              <line x1="100" y1="125" x2="100" y2="132" stroke="#171717" stroke-width="2.5"/>
+              <line x1="68" y1="100" x2="75" y2="100" stroke="#171717" stroke-width="2.5"/>
+              <line x1="125" y1="100" x2="132" y2="100" stroke="#171717" stroke-width="2.5"/>
+              <!-- Pointer -->
+              <line x1="100" y1="90" x2="100" y2="100" stroke="#d7f559" stroke-width="3" stroke-linecap="round"/>
+              <!-- Handle bar -->
+              <rect x="148" y="85" width="12" height="30" rx="4" fill="none" stroke="#171717" stroke-width="3"/>
+              <!-- Hinge bolts left -->
+              <circle cx="38" cy="60" r="5" fill="none" stroke="#171717" stroke-width="2.5"/>
+              <circle cx="38" cy="140" r="5" fill="none" stroke="#171717" stroke-width="2.5"/>
+              <!-- Corner ornaments -->
+              <path d="M 30 30 L 48 30 L 48 48" fill="none" stroke="#171717" stroke-width="2"/>
+              <path d="M 170 30 L 152 30 L 152 48" fill="none" stroke="#171717" stroke-width="2"/>
+              <path d="M 30 170 L 48 170 L 48 152" fill="none" stroke="#171717" stroke-width="2"/>
+              <path d="M 170 170 L 152 170 L 152 152" fill="none" stroke="#171717" stroke-width="2"/>
+            </svg>
+
+          </div>
+
+          <!-- Tier label -->
+          <div class="tier-label-row">
+            <span class="tier-badge" id="tier-badge">TIER 1</span>
+            <span class="tier-name" id="tier-name">The Crushed Paper Cup</span>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+            <span class="progress-pct" id="progress-pct">0%</span>
+          </div>
+
+          <!-- Countdown copy -->
+          <p class="countdown-copy" id="countdown-copy">Loading…</p>
+
+        </div>
+
+        <!-- WALL OF ABSOLUTION ────────────────────── -->
+        <div class="leaderboard-panel">
+          <p class="eyebrow">00B / The Wall of Absolution</p>
+          <h2 class="jar-title">Expensive<br>Pity.</h2>
+
+          <table class="absolution-table" aria-label="Top donors leaderboard">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>DONOR</th>
+                <th>TOTAL</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+              <tr class="vacant-row"><td>#1</td><td colspan="3" class="vacant-slot">[VACANT — ARE YOU TOO BROKE TO CLAIM THIS?]</td></tr>
+              <tr class="vacant-row"><td>#2</td><td colspan="3" class="vacant-slot">[AWAITING GUILTY WHALE]</td></tr>
+              <tr class="vacant-row"><td>#3</td><td colspan="3" class="vacant-slot">[EMPTY — RETAIL WAILS DETECTED]</td></tr>
+              <tr class="vacant-row"><td>#4</td><td colspan="3" class="vacant-slot">[SLOT RESERVED FOR SOMEONE ASHAMED]</td></tr>
+              <tr class="vacant-row"><td>#5</td><td colspan="3" class="vacant-slot">[PROBABLY YOU, READING THIS RIGHT NOW]</td></tr>
+            </tbody>
+          </table>
+
+          <div class="leaderboard-meta">
+            <span id="leaderboard-note" class="stat-note">Aggregating Base · ETH · ARB · OP · Polygon</span>
+            <p class="leaderboard-blurb">Dumped on retail? This wall was made for you. Tip the beggar, save your next candle from bad karma, and prove you can afford a 100% voluntary loss. Take the #1 sinner spot above.</p>
+            <a class="button button-primary leaderboard-cta" href="#chains">Absolve your wallet / Claim rank <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section-shell ledger-section" id="ledger">
+      <div class="section-heading">
+        <p class="eyebrow">01 / The ledger</p>
+        <h2>Every coin has<br>a witness.</h2>
+        <p>Nothing hidden. Every contribution and every spend will be visible here. Public transactions, public balance, zero secrets.</p>
+      </div>
+      <div class="stats-grid">
+        <article class="stat-card featured">
+          <span class="stat-label">Current balance (Base)</span>
+          <strong id="stat-balance">—</strong>
+          <span class="stat-note">Live · auto-refreshes every 5 s</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Exact amount in WEI</span>
+          <strong id="stat-wei" class="stat-wei-val">—</strong>
+          <span class="stat-note">1 ETH = 10¹⁸ WEI</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Last RPC update</span>
+          <strong id="stat-last-update">—</strong>
+          <span class="stat-note">Querying mainnet.base.org</span>
+        </article>
+      </div>
+      <div class="address-row">
+        <div>
+          <span class="stat-label">Official EVM wallet · Base · Ethereum · Arbitrum · Optimism · Polygon · BNB · Linea · Monad</span>
+          <code id="wallet-address">0x7b7860E60330b3363380fe33913F3eACc1737E56</code>
+          <div class="address-links">
+            <a href="https://basescan.org/address/0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer">Basescan ↗</a>
+            <a href="https://etherscan.io/address/0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer">Etherscan ↗</a>
+            <a href="https://arbiscan.io/address/0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer">Arbiscan ↗</a>
+            <a href="https://polygonscan.com/address/0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer">Polygonscan ↗</a>
+          </div>
+        </div>
+        <button class="copy-button" id="copy-wallet" type="button">Copy address</button>
+      </div>
+      <p class="ledger-note">The EVM wallet above is live and verified. Never send funds to an address announced only in a DM or reply.</p>
+    </section>
+
+    <section class="section-shell chains-section" id="chains">
+      <div class="section-heading chains-heading">
+        <p class="eyebrow">01B / Pick your poison</p>
+        <h2>Every chain.<br>Same sad ask.</h2>
+        <p>Send only on the network shown. Each address is verified and published here before accepting funds. Until then: no alms, no scams.</p>
+      </div>
+      <div class="chain-grid">
+
+        <article class="chain-card chain-featured">
+          <div class="chain-meta">
+            <span class="chain-icon">Ξ</span>
+            <span class="chain-status chain-status-live">● Live</span>
+          </div>
+          <h3>EVM family</h3>
+          <p>Ethereum · Base · Arbitrum · Optimism · Polygon · BNB Chain · Linea · Monad</p>
+          <code data-address="0x7b7860E60330b3363380fe33913F3eACc1737E56">0x7b7860E60330b3363380fe33913F3eACc1737E56</code>
+          <div class="chain-actions">
+            <button class="chain-copy" type="button">Copy</button>
+            <button class="chain-qr" type="button" data-qr-chain="evm">QR / Send ↗</button>
+            <a class="chain-link" href="https://basescan.org/address/0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer">Basescan ↗</a>
+          </div>
+        </article>
+
+        <article class="chain-card">
+          <div class="chain-meta">
+            <span class="chain-icon">₿</span>
+            <span class="chain-status chain-status-live">● Live</span>
+          </div>
+          <h3>Bitcoin</h3>
+          <p>BTC mainnet · Native SegWit</p>
+          <code data-address="bc1qkzlk3xwa6lxsakg0l028yl0aca76y0vl7a5jts">bc1qkzlk3xwa6lxsakg0l028yl0aca76y0vl7a5jts</code>
+          <div class="chain-actions">
+            <button class="chain-copy" type="button">Copy</button>
+            <button class="chain-qr" type="button" data-qr-chain="btc">QR / Send ↗</button>
+            <a class="chain-link" href="https://mempool.space/address/bc1qkzlk3xwa6lxsakg0l028yl0aca76y0vl7a5jts" target="_blank" rel="noopener noreferrer">Mempool ↗</a>
+          </div>
+        </article>
+
+        <article class="chain-card">
+          <div class="chain-meta">
+            <span class="chain-icon">◎</span>
+            <span class="chain-status chain-status-live">● Live</span>
+          </div>
+          <h3>Solana</h3>
+          <p>SOL mainnet</p>
+          <code data-address="B9TRxqnagb6SoiLeJyr4XpvjjnKtZiUrFdZnDv8ycWzK">B9TRxqnagb6SoiLeJyr4XpvjjnKtZiUrFdZnDv8ycWzK</code>
+          <div class="chain-actions">
+            <button class="chain-copy" type="button">Copy</button>
+            <button class="chain-qr" type="button" data-qr-chain="sol">QR / Send ↗</button>
+            <a class="chain-link" href="https://solscan.io/account/B9TRxqnagb6SoiLeJyr4XpvjjnKtZiUrFdZnDv8ycWzK" target="_blank" rel="noopener noreferrer">Solscan ↗</a>
+          </div>
+        </article>
+
+        <article class="chain-card">
+          <div class="chain-meta">
+            <span class="chain-icon">T</span>
+            <span class="chain-status chain-status-live">● Live</span>
+          </div>
+          <h3>Tron</h3>
+          <p>TRX mainnet</p>
+          <code data-address="TAVKuTfRhQafeLKS79x1jjGQBGrgwNtUz9">TAVKuTfRhQafeLKS79x1jjGQBGrgwNtUz9</code>
+          <div class="chain-actions">
+            <button class="chain-copy" type="button">Copy</button>
+            <button class="chain-qr" type="button" data-qr-chain="tron">QR / Send ↗</button>
+            <a class="chain-link" href="https://tronscan.org/#/address/TAVKuTfRhQafeLKS79x1jjGQBGrgwNtUz9" target="_blank" rel="noopener noreferrer">Tronscan ↗</a>
+          </div>
+        </article>
+
+        <article class="chain-card">
+          <div class="chain-meta">
+            <span class="chain-icon">◈</span>
+            <span class="chain-status">Coming soon</span>
+          </div>
+          <h3>TON</h3>
+          <p>The Open Network</p>
+          <code data-address="WALLET_NOT_DEPLOYED">WALLET_NOT_DEPLOYED</code>
+          <button class="chain-copy" type="button" disabled>Copy address</button>
+        </article>
+
+        <article class="chain-card">
+          <div class="chain-meta">
+            <span class="chain-icon">✦</span>
+            <span class="chain-status">Coming soon</span>
+          </div>
+          <h3>Other chains</h3>
+          <p>XRP · Cardano · Cosmos · Sui · Aptos</p>
+          <code data-address="WALLET_NOT_DEPLOYED">WALLET_NOT_DEPLOYED</code>
+          <button class="chain-copy" type="button" disabled>Copy address</button>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="dark-section" id="manifesto">
+      <div class="section-shell manifesto-grid">
+        <div>
+          <p class="eyebrow eyebrow-light">02 / The manifesto</p>
+          <h2>We are not<br>building.</h2>
+        </div>
+        <div class="manifesto-text">
+          <p>We are asking.</p>
+          <p>BEGGAR is a satire of crypto's endless promises. There is no secret utility hiding behind a curtain. No guaranteed return. No fake emergency. The bit is simple: a wallet asks the internet for money, and the internet decides whether to answer.</p>
+          <p>If you give, you are supporting a public performance and nothing more. Your contribution is voluntary, visible, and gone once sent.</p>
+          <div class="signature">— BEGGAR<br><span>still outside</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell give-section" id="give">
+      <div class="give-panel">
+        <div>
+          <p class="eyebrow">03 / Give alms</p>
+          <h2>One small<br>transaction.</h2>
+          <p class="give-copy">Four chains now live: EVM, Bitcoin, Solana, Tron. Send directly, scan a QR on mobile, or tap Quick Send for desktop wallets. More chains deploying soon.</p>
+        </div>
+        <div class="give-actions">
+          <a class="button button-primary" href="#chains">Choose a chain <span aria-hidden="true">↑</span></a>
+          <div class="social-links">
+            <a href="#" aria-label="X social profile">X / @beggar</a>
+            <a href="#" aria-label="Telegram social profile">Telegram / beggar</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell faq-section" id="faq">
+      <p class="eyebrow">04 / Small print</p>
+      <div class="faq-list">
+        <details open>
+          <summary>Is BEGGAR a charity?</summary>
+          <p>No. BEGGAR is a satirical art and meme project. Contributions are not charitable donations and are not tax-deductible.</p>
+        </details>
+        <details>
+          <summary>Is $BEGGAR an investment?</summary>
+          <p>No. If a token is launched it will be clearly labeled as a participation meme token. There will be no promise of profit, yield, utility, or future value.</p>
+        </details>
+        <details>
+          <summary>Where does the money go?</summary>
+          <p>The wallet activity is 100% public. Any spending will be documented with receipts or transaction links. No hidden wallets, undisclosed fees, or fake causes.</p>
+        </details>
+        <details>
+          <summary>How do I know this is official?</summary>
+          <p>Only trust addresses and links published on this site. The official addresses are shown above and will never be shared only through a reply or direct message.</p>
+        </details>
+        <details>
+          <summary>Are the QR / Quick Send links safe?</summary>
+          <p>The QR and Quick Send buttons open third-party wallet apps pre-filled with the verified address shown on this page. Always verify the destination address in your wallet before confirming. BEGGAR is not affiliated with MetaMask, Phantom, Coinbase, Rainbow, or any other wallet service.</p>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div class="brand"><span class="brand-mark">$</span> BEGGAR</div>
+    <p>Made with an open hand.<br><span>© 2026 BEGGAR. No promises implied.</span></p>
+    <a class="back-top" href="#top">Back to top ↑</a>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="script.js?v=9"></script>
+</body>
+</html>
