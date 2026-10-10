@@ -936,8 +936,42 @@ h1 {
   align-items: flex-end;
   min-width: 265px;
 }
-.social-links   { display: flex; gap: 18px; font: 10px var(--mono); text-transform: uppercase; }
-.social-links a { border-bottom: 1px solid var(--ink); padding-bottom: 4px; }
+.social-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+.social-action-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  transition: transform .15s ease, background .15s ease, color .15s ease;
+  min-width: 260px;
+}
+.social-action-card:hover {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-2px);
+}
+.social-action-card strong {
+  display: block;
+  font-size: 16px;
+  letter-spacing: -.02em;
+}
+.social-action-card span {
+  display: block;
+  font: 11px var(--mono);
+  opacity: .8;
+}
+.social-action-card .social-icon {
+  font-size: 24px;
+  line-height: 1;
+}
 
 .faq-section { padding-bottom: 110px; display: grid; grid-template-columns: .8fr 2fr; gap: 60px; }
 .faq-list { border-top: 1px solid var(--ink); }
