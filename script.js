@@ -616,14 +616,23 @@ const rainToggleBtn   = document.getElementById('toggle-rain');
 const rainToggleLabel = rainToggleBtn?.querySelector('.rain-toggle-label');
 const rainHint        = document.getElementById('rain-hint');
 let rainAutoFadeTimer = null;
+let rainHintFadeTimer = null;
 
 function showRainArrow() {
   if (rainHint && document.body.classList.contains('rain-off')) {
     rainHint.classList.add('is-visible');
+    if (rainHintFadeTimer) clearTimeout(rainHintFadeTimer);
+    rainHintFadeTimer = setTimeout(() => {
+      hideRainArrow();
+    }, 6000);
   }
 }
 
 function hideRainArrow() {
+  if (rainHintFadeTimer) {
+    clearTimeout(rainHintFadeTimer);
+    rainHintFadeTimer = null;
+  }
   if (rainHint) {
     rainHint.classList.remove('is-visible');
   }

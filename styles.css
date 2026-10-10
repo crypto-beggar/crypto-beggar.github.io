@@ -116,17 +116,18 @@ body.rain-off .money-rain {
   padding: 8px 12px;
   pointer-events: none;
   opacity: 0;
+  visibility: hidden;
   transform: translateY(-4px);
-  transition: opacity .4s ease, transform .4s ease;
+  transition: opacity .6s ease, transform .6s ease, visibility .6s;
   z-index: 300;
   box-shadow: 2px 2px 0 rgba(23,23,23,.12);
-  display: none;
-}
-.rain-hint.is-visible {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+.rain-hint.is-visible {
   opacity: 1;
+  visibility: visible;
   transform: translateY(0);
 }
 .rain-hint-arrow {
