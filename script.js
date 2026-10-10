@@ -614,46 +614,51 @@ modalCopyBtn?.addEventListener('click', function () { copyText(modalAddrEl?.text
 
 const rainToggleBtn   = document.getElementById('toggle-rain');
 const rainToggleLabel = rainToggleBtn?.querySelector('.rain-toggle-label');
+const rainHint        = document.getElementById('rain-hint');
+let rainAutoFadeTimer = null;
 
-function applyRainState(isOff) {
+function showRainArrow() {
+  if (rainHint && document.body.classList.contains('rain-off')) {
+    rainHint.classList.add('is-visible');
+  }
+}
+
+function hideRainArrow() {
+  if (rainHint) {
+    rainHint.classList.remove('is-visible');
+  }
+}
+
+function applyRainState(isOff, manual = true) {
+  if (manual && rainAutoFadeTimer) {
+    clearTimeout(rainAutoFadeTimer);
+    rainAutoFadeTimer = null;
+  }
   document.body.classList.toggle('rain-off', isOff);
   if (rainToggleLabel) rainToggleLabel.textContent = isOff ? 'RAIN: OFF' : 'RAIN: ON';
-  try { localStorage.setItem('beggar-rain-off', isOff ? '1' : '0'); } catch (_) {}
+  if (isOff) {
+    showRainArrow();
+  } else {
+    hideRainArrow();
+  }
 }
 
-(function () {
-  try { if (localStorage.getItem('beggar-rain-off') === '1') applyRainState(true); } catch (_) {}
-})();
-
-function dismissRainHint() {
-  const hint = document.getElementById('rain-hint');
-  if (!hint || hint.classList.contains('is-fading') || hint.classList.contains('is-gone')) return;
-  hint.classList.add('is-fading');
-  setTimeout(() => hint.classList.add('is-gone'), 2000);
-  try { localStorage.setItem('beggar-hint-seen-v2', '1'); } catch {}
-}
-
-function initRainHint() {
-  const hint = document.getElementById('rain-hint');
-  if (!hint) return;
-  try {
-    if (localStorage.getItem('beggar-hint-seen-v2') === '1') {
-      hint.classList.add('is-gone');
-      return;
-    }
-  } catch {}
-  setTimeout(dismissRainHint, 10_000);
+function initRainBehavior() {
+  // Ponytail: start with rain for 5s, then fade out and point to toggle button
+  rainAutoFadeTimer = setTimeout(() => {
+    applyRainState(true, false);
+  }, 5000);
 }
 
 rainToggleBtn?.addEventListener('click', () => {
-  applyRainState(!document.body.classList.contains('rain-off'));
-  dismissRainHint();
+  const willBeOff = !document.body.classList.contains('rain-off');
+  applyRainState(willBeOff, true);
 });
 
 async function init() {
   initTickerLoop();
   initMoneyRain();
-  initRainHint();
+  initRainBehavior();
 
   currentTierIndex = Math.min(savedTier, TIERS.length - 1);
   showContainerSvg(currentTierIndex);

@@ -32,6 +32,13 @@ h1, h2, p { margin-top: 0; }
   pointer-events: none;
   z-index: 50;
   overflow: hidden;
+  opacity: 1;
+  transition: opacity 2s ease;
+}
+
+body.rain-off .money-rain {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .falling-bill {
@@ -82,8 +89,6 @@ h1, h2, p { margin-top: 0; }
   100% { transform: translateY(115vh) rotate(var(--rot-end,   15deg));  opacity: 0;    }
 }
 
-body.rain-off .money-rain { opacity: 0; pointer-events: none; }
-
 .header-actions {
   display: flex;
   align-items: center;
@@ -110,16 +115,36 @@ body.rain-off .money-rain { opacity: 0; pointer-events: none; }
   text-align: left;
   padding: 8px 12px;
   pointer-events: none;
-  opacity: 1;
-  transition: opacity .8s ease;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity .4s ease, transform .4s ease;
   z-index: 300;
   box-shadow: 2px 2px 0 rgba(23,23,23,.12);
+  display: none;
+}
+.rain-hint.is-visible {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 1;
+  transform: translateY(0);
+}
+.rain-hint-arrow {
+  color: var(--red);
+  font-weight: 900;
+  font-size: 13px;
+  animation: bounceUp 1.2s infinite ease-in-out;
+  display: inline-block;
+}
+@keyframes bounceUp {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
 }
 .rain-hint::before {
   content: '';
   position: absolute;
   top: -7px;
-  right: 4px;
+  right: 14px;
   left: auto;
   width: 0;
   height: 0;
@@ -127,17 +152,6 @@ body.rain-off .money-rain { opacity: 0; pointer-events: none; }
   border-right: 6px solid transparent;
   border-bottom: 7px solid var(--red);
 }
-.rain-hint::after {
-  content: '';
-  position: absolute;
-  top: -14px;
-  right: 10px;
-  width: 1px;
-  height: 8px;
-  background: var(--red);
-}
-.rain-hint.is-fading { opacity: 0; }
-.rain-hint.is-gone   { display: none; }
 
 .rain-toggle {
   display: inline-flex;
