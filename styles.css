@@ -240,6 +240,37 @@ body.rain-off .rain-toggle:hover { opacity: .75; }
   100% { transform: translate(var(--fly-x), var(--fly-y)) rotate(var(--fly-r)) scale(.4); opacity: 0; }
 }
 
+.top-status-bar {
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 16px;
+  text-align: center;
+  position: relative;
+  z-index: 101;
+  font: 600 11px/1 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.top-status-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.status-saved-val {
+  color: var(--acid);
+  font-weight: 700;
+}
+.status-sep {
+  opacity: .4;
+}
+.status-broke {
+  color: var(--red);
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
 .site-header, main, .site-footer { position: relative; z-index: 1; }
 
 .section-shell { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }

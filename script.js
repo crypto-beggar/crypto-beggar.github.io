@@ -222,9 +222,12 @@ async function fetchAllBalancesUSD() {
   const statBalEl    = document.getElementById('stat-balance');
   const statWeiEl    = document.getElementById('stat-wei');
   const statUpdateEl = document.getElementById('stat-last-update');
+  const topSavedEl   = document.getElementById('top-saved-val');
   const timeStr = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-  if (statBalEl)    statBalEl.textContent    = `$${usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const formattedUsd = `$${usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  if (topSavedEl)   topSavedEl.textContent   = formattedUsd;
+  if (statBalEl)    statBalEl.textContent    = formattedUsd;
   if (statWeiEl)    statWeiEl.textContent    = `${totalEth.toFixed(6)} ETH`;
   if (statUpdateEl) statUpdateEl.textContent = timeStr;
 
