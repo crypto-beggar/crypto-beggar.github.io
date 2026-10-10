@@ -828,6 +828,9 @@ h1 {
 .chain-status                       { color: var(--muted); font: 9px var(--mono); text-transform: uppercase; }
 .chain-status-live                  { color: #0a4f21; font-weight: 700; }
 .chain-featured .chain-status-live  { color: var(--acid); }
+.chain-status-pump                  { color: #10b981; font-weight: 700; }
+.chain-link-pump                    { color: #10b981 !important; border-color: #10b981 !important; }
+.chain-link-pump:hover              { background: #10b981; color: var(--ink) !important; }
 .chain-card h3 { font-size: 24px; letter-spacing: -.05em; margin: 22px 0 6px; }
 .chain-card p  { min-height: 34px; color: var(--muted); font-size: 12px; line-height: 1.4; margin-bottom: 12px; }
 .chain-featured h3   { color: var(--paper); }

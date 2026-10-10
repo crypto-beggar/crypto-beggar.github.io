@@ -3,6 +3,7 @@
 const EVM_ADDRESS  = '0x7b7860E60330b3363380fe33913F3eACc1737E56';
 const BTC_ADDRESS  = 'bc1qkzlk3xwa6lxsakg0l028yl0aca76y0vl7a5jts';
 const SOL_ADDRESS  = 'B9TRxqnagb6SoiLeJyr4XpvjjnKtZiUrFdZnDv8ycWzK';
+const PUMP_ADDRESS = 'BigaP4PjLxpfuEVKGJr8HMEpE6UevVydWhQ7qu5hQcxc';
 const TRON_ADDRESS = 'TAVKuTfRhQafeLKS79x1jjGQBGrgwNtUz9';
 const BASE_RPC     = 'https://mainnet.base.org';
 const ETH_RPC      = 'https://ethereum-rpc.publicnode.com';
@@ -420,14 +421,47 @@ async function fetchLeaderboard() {
     .sort((a, b) => (b[1] > a[1] ? 1 : -1))
     .slice(0, 5);
 
-  renderLeaderboard(sorted);
+  await renderLeaderboard(sorted);
+}
+
+// Curated donor name registry: donors can give you their wallet address + nickname
+const DONOR_NAMES = {
+  // Example entries (lowercase address : Display Name)
+  // '0x1234...': 'CryptoWhale',
+};
+
+const ensCache = new Map();
+
+async function resolveDonorName(addr) {
+  const lower = addr.toLowerCase();
+  if (DONOR_NAMES[lower]) {
+    return { name: DONOR_NAMES[lower], isName: true };
+  }
+  if (ensCache.has(lower)) {
+    return ensCache.get(lower);
+  }
+  try {
+    const res = await fetch(`https://api.ensideas.com/ens/resolve/${lower}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data?.displayName || data?.name) {
+        const resolved = { name: data.displayName || data.name, isName: true };
+        ensCache.set(lower, resolved);
+        return resolved;
+      }
+    }
+  } catch (_) {}
+
+  const fallback = { name: abbrev(addr), isName: false };
+  ensCache.set(lower, fallback);
+  return fallback;
 }
 
 function abbrev(addr) {
   return addr.slice(0, 6) + '…' + addr.slice(-4);
 }
 
-function renderLeaderboard(sorted) {
+async function renderLeaderboard(sorted) {
   const body = document.getElementById('leaderboard-body');
   if (!body) return;
 
@@ -447,10 +481,15 @@ function renderLeaderboard(sorted) {
       const usd  = eth * cachedPrices.eth;
       const ethStr = eth.toFixed(6) + ' ETH';
       const usdStr = '$' + usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const donorInfo = await resolveDonorName(addr);
+      const donorHtml = donorInfo.isName
+        ? `<strong class="donor-ens" title="${addr}">${donorInfo.name}</strong>`
+        : `<span class="donor-hex" title="${addr}">${donorInfo.name}</span>`;
+
       rows.push(`
         <tr>
           <td class="rank-cell${i === 0 ? ' rank-1' : ''}">#${i + 1}</td>
-          <td class="donor-cell"><span class="donor-hex">${abbrev(addr)}</span></td>
+          <td class="donor-cell">${donorHtml}</td>
           <td class="total-cell">
             <span class="total-eth">${ethStr}</span>
             <span class="total-usd">${usdStr}</span>
@@ -550,6 +589,14 @@ const CHAIN_DATA = {
       { label: 'Phantom',                  url: `https://phantom.app/ul/v1/transfer?destination=${SOL_ADDRESS}` },
       { label: 'Solflare',                 url: `https://solflare.com/send?to=${SOL_ADDRESS}`                   },
       { label: 'Solana URI (any wallet)',  url: `solana:${SOL_ADDRESS}`                                         }
+    ]
+  },
+  pump: {
+    name: 'PUMP.FUN / MEMECOINS', address: PUMP_ADDRESS, qrValue: `solana:${PUMP_ADDRESS}`,
+    links: [
+      { label: 'Open pump.fun Profile',    url: 'https://pump.fun/join/0xCryptoBeggar'                           },
+      { label: 'Phantom (Send SPL/Tokens)',url: `https://phantom.app/ul/v1/transfer?destination=${PUMP_ADDRESS}`},
+      { label: 'Solflare (Send SPL)',      url: `https://solflare.com/send?to=${PUMP_ADDRESS}`                  }
     ]
   },
   tron: {
