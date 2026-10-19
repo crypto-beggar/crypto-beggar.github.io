@@ -556,6 +556,10 @@ document.querySelector('#copy-wallet')?.addEventListener('click', function () {
   copyText(document.querySelector('#wallet-address')?.textContent?.trim(), this, 'Copy address');
 });
 
+document.querySelector('#hero-copy-address')?.addEventListener('click', function () {
+  copyText(EVM_ADDRESS, this, 'Copy');
+});
+
 document.querySelectorAll('.chain-card').forEach(card => {
   const codeEl = card.querySelector('code');
   const btn    = card.querySelector('.chain-copy');
@@ -568,11 +572,13 @@ const CHAIN_DATA = {
   evm: {
     name: 'EVM FAMILY', address: EVM_ADDRESS, qrValue: EVM_ADDRESS,
     links: [
-      { label: 'MetaMask · Base',      url: `https://metamask.app.link/send/${EVM_ADDRESS}@8453` },
-      { label: 'MetaMask · Ethereum',  url: `https://metamask.app.link/send/${EVM_ADDRESS}@1`    },
-      { label: 'Coinbase Wallet',      url: `https://go.cb-wallet.com/send?chain=base&address=${EVM_ADDRESS}` },
-      { label: 'Rainbow',              url: `https://rainbow.me/send?address=${EVM_ADDRESS}`      },
-      { label: 'EVM URI (any wallet)', url: `ethereum:${EVM_ADDRESS}`                            }
+      { label: 'MetaMask · Base',              url: `https://metamask.app.link/send/${EVM_ADDRESS}@8453` },
+      { label: 'MetaMask · Ethereum',          url: `https://metamask.app.link/send/${EVM_ADDRESS}@1`    },
+      { label: 'Coinbase Wallet',              url: `https://go.cb-wallet.com/send?chain=base&address=${EVM_ADDRESS}` },
+      { label: 'Rainbow',                      url: `https://rainbow.me/send?address=${EVM_ADDRESS}`      },
+      { label: '⚡ Jumper (Any Chain / Token)', url: `https://jumper.exchange/?toAddress=${EVM_ADDRESS}` },
+      { label: '🦄 Uniswap (Base Swap)',        url: `https://app.uniswap.org/swap?recipient=${EVM_ADDRESS}&chain=base` },
+      { label: 'EVM URI (any wallet)',         url: `ethereum:${EVM_ADDRESS}`                            }
     ]
   },
   btc: {

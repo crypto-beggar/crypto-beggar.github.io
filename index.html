@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body>
 
@@ -100,6 +100,27 @@
         <div class="hero-actions">
           <a class="button button-primary" href="#chains">Give alms <span aria-hidden="true">↗</span></a>
           <a class="text-link" href="#manifesto">Read the manifesto <span aria-hidden="true">↓</span></a>
+        </div>
+
+        <div class="hero-wallet-card">
+          <div class="hero-wallet-top">
+            <span class="hero-wallet-tag"><span class="hero-wallet-dot"></span> EVM DEPOSIT (BASE · ETH · ARB · POLYGON · OP · BNB)</span>
+            <span class="hero-wallet-note">DIRECT ON-CHAIN</span>
+          </div>
+          <div class="hero-wallet-row">
+            <code class="hero-wallet-code" id="hero-wallet-address" data-address="0x7b7860E60330b3363380fe33913F3eACc1737E56">0x7b7860E60330b3363380fe33913F3eACc1737E56</code>
+            <div class="hero-wallet-actions">
+              <button class="hero-wallet-btn hero-btn-copy" id="hero-copy-address" type="button" aria-label="Copy address">Copy</button>
+              <button class="hero-wallet-btn hero-btn-qr" type="button" data-qr-chain="evm" aria-label="Show QR Code and Wallet Send">QR / Send ↗</button>
+            </div>
+          </div>
+          <div class="hero-wallet-footer">
+            <span class="hero-wallet-subhead">Instant Swap / Bridge:</span>
+            <div class="hero-wallet-links">
+              <a class="hero-swap-link" href="https://jumper.exchange/?toAddress=0x7b7860E60330b3363380fe33913F3eACc1737E56" target="_blank" rel="noopener noreferrer" title="Universal swap from any token/chain directly to beggar wallet">⚡ Jumper (Any Chain / Token) ↗</a>
+              <a class="hero-swap-link" href="https://app.uniswap.org/swap?recipient=0x7b7860E60330b3363380fe33913F3eACc1737E56&chain=base" target="_blank" rel="noopener noreferrer" title="Swap any token on Base directly to beggar wallet">🦄 Uniswap (Base) ↗</a>
+            </div>
+          </div>
         </div>
       </div>
       <div class="hero-card" aria-label="Current begging status">
@@ -592,6 +613,6 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="script.js?v=9"></script>
+  <script src="script.js?v=10"></script>
 </body>
 </html>

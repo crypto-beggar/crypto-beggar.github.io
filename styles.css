@@ -430,6 +430,144 @@ h1 {
   padding-bottom: 4px;
 }
 
+.hero-wallet-card {
+  margin-top: 28px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 16px 18px;
+  max-width: 520px;
+}
+.hero-wallet-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  font: 700 10px var(--mono);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.hero-wallet-tag {
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.hero-wallet-dot {
+  width: 6px;
+  height: 6px;
+  background: #16a34a;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+}
+.hero-wallet-note {
+  color: var(--muted);
+  font-size: 9px;
+  white-space: nowrap;
+}
+.hero-wallet-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid var(--ink);
+  padding: 8px 12px;
+}
+.hero-wallet-code {
+  font: 500 12px/1.3 var(--mono);
+  color: var(--ink);
+  letter-spacing: -.02em;
+  word-break: break-all;
+  user-select: all;
+}
+.hero-wallet-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.hero-wallet-btn {
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font: 600 10px var(--mono);
+  text-transform: uppercase;
+  padding: 6px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: .03em;
+  transition: background .12s, color .12s, transform .12s, box-shadow .12s;
+}
+.hero-wallet-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.hero-btn-qr {
+  background: var(--acid);
+}
+.hero-wallet-footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.hero-wallet-subhead {
+  font: 600 10px var(--mono);
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: .04em;
+}
+.hero-wallet-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.hero-swap-link {
+  font: 600 10px var(--mono);
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 2px;
+  letter-spacing: .03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity .15s;
+}
+.hero-swap-link:hover {
+  opacity: .6;
+}
+@media (max-width: 560px) {
+  .hero-wallet-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .hero-wallet-actions {
+    justify-content: stretch;
+  }
+  .hero-wallet-btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px 10px;
+  }
+  .hero-wallet-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
 .hero-card {
   background: var(--red);
   min-height: 440px;
